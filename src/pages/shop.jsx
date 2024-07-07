@@ -18,6 +18,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import MainHeader from '../components/MainHeader';
+import ProductsList from '../components/ProductList';
 
 const drawerWidth = 240;
 
@@ -158,9 +160,8 @@ export default function ResponsivePersistentDrawer(props) {
       </Drawer>
       <Main open={open} isDesktop={isDesktop}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Typography>
+        <MainHeader/>
+        <ProductsList/>
       </Main>
     </Box>
   );
