@@ -39,12 +39,15 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 const CustomAppBar = styled(AppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  backgroundColor: '#fff',
+  color: 'black',
+  boxShadow: '0 0px 5px rgba(100, 100, 100, 0.2)',
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     color: 'black',
     boxShadow: '0 0px 5px rgba(100, 100, 100, 0.2)',
     width: `calc(100% - ${drawerWidth}px)`,
