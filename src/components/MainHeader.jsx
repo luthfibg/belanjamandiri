@@ -10,10 +10,11 @@ import PrintIcon from '@mui/icons-material/Print';
 import { blueGrey } from "@mui/material/colors";
 
 const MainHeader = () => {
+    const userinfo = localStorage.getItem('fname');
     return (
         <Box className="main-header" mb={2} sx={{ display: "flex", flexDirection: "column" }}>
             <Box className="main-header__top" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
-                <Typography variant="subtitle" mb={1}>Selamat Pagi, Luthfi</Typography>
+                <Typography variant="subtitle" mb={1}>{`Selamat Pagi, ${userinfo}`}</Typography>
                 <Typography fontSize={12} variant="body2" mb={1}>Mau belanja apa sekarang?</Typography>
             </Box>
             <Stack className="main-header__bottom" direction="row" spacing={1}>

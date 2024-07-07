@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
 import {
     Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography,
-    Divider, IconButton,ListItem, ListItemText, ListItemButton,
+    Divider, IconButton, ListItem, ListItemText, ListItemButton,
     useMediaQuery, Autocomplete, TextField,
-    Button
+    Button, Tooltip, Avatar, Menu, MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -66,6 +66,9 @@ export default function ResponsivePersistentDrawer(props) {
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const [open, setOpen] = React.useState(isDesktop);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const settings = ['Account', 'Logout'];
 
   React.useEffect(() => {
     setOpen(isDesktop);
@@ -77,6 +80,14 @@ export default function ResponsivePersistentDrawer(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const drawer = (
@@ -129,6 +140,15 @@ export default function ResponsivePersistentDrawer(props) {
     </div>
   );
 
+  const logout = () => {
+    // Remove the JWT token from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    // Redirect the user to the login page
+    window.location.href = '/login-customer';
+  }
+
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -143,9 +163,38 @@ export default function ResponsivePersistentDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Belanja Mandiri
           </Typography>
+          <Box sx={{ flexGrow: 0, marginRight: 1 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => setting === 'Logout' ? logout() : null}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Toolbar>
       </CustomAppBar>
       <Drawer
