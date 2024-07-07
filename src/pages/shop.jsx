@@ -44,6 +44,9 @@ const CustomAppBar = styled(AppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
+    backgroundColor: '#f5f5f5',
+    color: 'black',
+    boxShadow: '0 0px 5px rgba(100, 100, 100, 0.2)',
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(['margin', 'width'], {
