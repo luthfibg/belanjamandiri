@@ -4,7 +4,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import {
     Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography,
     Divider, IconButton, ListItem, ListItemText, ListItemButton,
-    useMediaQuery, Autocomplete, TextField,
+    useMediaQuery, Autocomplete, TextField, Modal,
     Button, Tooltip, Avatar, Menu, MenuItem, Paper, InputBase
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -69,12 +69,26 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+const SearchModalStyle = {
+  position: 'absolute',
+  top: '20%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: { xs: '90%', sm: '70%', md: '50%' },
+  bgcolor: 'background.paper',
+  borderRadius: '5px',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 export default function ResponsivePersistentDrawer(props) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const [open, setOpen] = React.useState(isDesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [openSearch, setOpenSearch] = React.useState(false);
 
   const settings = ['Account', 'Logout'];
 
@@ -82,13 +96,17 @@ export default function ResponsivePersistentDrawer(props) {
     setOpen(isDesktop);
   }, [isDesktop]);
 
+  // open-closed drawer
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // open-closed search modal for mobile screen
+  const handleOpenSearch = () => setOpenSearch(true);
+  const handleCloseSearch = () => setOpenSearch(false);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -191,10 +209,41 @@ export default function ResponsivePersistentDrawer(props) {
               <DirectionsIcon />
             </IconButton>
           </Paper>
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton size="small" aria-label="show 4 new mails" color="inherit"></IconButton>
-          </Box>
-          <Box sx={{ display: 'flex', flexGrow: 1, marginRight: 0, justifyContent: 'flex-end' }}>
+          <IconButton 
+            size="small" 
+            onClick={handleOpenSearch}
+            color="inherit"
+            sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+            <SearchIcon/>
+          </IconButton>
+          <Modal
+            keepMounted
+            open={openSearch}
+            onClose={handleCloseSearch}
+            aria-labelledby="keep-mounted-modal-title"
+            aria-describedby="keep-mounted-modal-description"
+            >
+            <Box sx={SearchModalStyle}>
+              <Paper
+                component="form"
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', flexGrow: 1 }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Kata Kunci Produk..."
+                  inputProps={{ 'aria-label': 'kata kunci produk' }}
+                />
+                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+                  <DirectionsIcon />
+                </IconButton>
+              </Paper>
+            </Box>
+          </Modal>
+          <Box sx={{ display: 'flex', flexGrow: { xs: 0, md: 1 }, marginRight: 1, marginLeft: { xs: 1, md: 2 }, justifyContent: 'flex-end' }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
