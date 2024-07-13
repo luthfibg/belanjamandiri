@@ -35,7 +35,7 @@ const ProductCard = ({ product }) => {
           <Rating value={product_stars} readOnly />
         </CardContent>
       </CardActionArea>
-      <IconButton style={{ position: 'absolute', top: 8, right: 8 }} color="secondary">
+      <IconButton style={{ position: 'absolute', top: -5, right: 5 }} color="secondary">
         <FavoriteIcon />
       </IconButton>
     </Card>

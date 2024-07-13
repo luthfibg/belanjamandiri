@@ -5,7 +5,7 @@ import {
     Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography,
     Divider, IconButton, ListItem, ListItemText, ListItemButton,
     useMediaQuery, Autocomplete, TextField,
-    Button, Tooltip, Avatar, Menu, MenuItem
+    Button, Tooltip, Avatar, Menu, MenuItem, Paper, InputBase
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -18,6 +18,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import DirectionsIcon from '@mui/icons-material/Directions';
+import SearchIcon from '@mui/icons-material/Search';
 import MainHeader from '../components/MainHeader';
 import ProductsList from '../components/ProductList';
 
@@ -172,7 +174,27 @@ export default function ResponsivePersistentDrawer(props) {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Belanja Mandiri
           </Typography>
-          <Box sx={{ flexGrow: 0, marginRight: 1 }}>
+          <Paper
+            component="form"
+            sx={{ p: '2px 4px', display: { xs: 'none', md: 'flex' }, alignItems: 'center', width: 400, flexGrow: 1 }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Kata Kunci Produk..."
+              inputProps={{ 'aria-label': 'kata kunci produk' }}
+            />
+            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+              <SearchIcon />
+            </IconButton>
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+              <DirectionsIcon />
+            </IconButton>
+          </Paper>
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton size="small" aria-label="show 4 new mails" color="inherit"></IconButton>
+          </Box>
+          <Box sx={{ display: 'flex', flexGrow: 1, marginRight: 0, justifyContent: 'flex-end' }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -213,7 +235,7 @@ export default function ResponsivePersistentDrawer(props) {
       >
         {drawer}
       </Drawer>
-      <Main open={open} isDesktop={isDesktop}>
+      <Main open={open} isDesktop={isDesktop} sx={{  width: '100%', height: '100vh', overflow: 'scroll' }}>
         <DrawerHeader />
         <MainHeader/>
         <ProductsList/>
