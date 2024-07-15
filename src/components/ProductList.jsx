@@ -7,6 +7,7 @@ import { capitalize } from 'lodash';
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const token = localStorage.getItem('token');
+  const customerId = localStorage.getItem('customer_id'); // Assume you store customer ID in local storage
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -71,7 +72,7 @@ const ProductsList = () => {
             <Grid container spacing={2} wrap="nowrap">
               {categories[category].map((product) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-                  <ProductCard product={product} />
+                  <ProductCard product={product} customerId={customerId} />
                 </Grid>
               ))}
             </Grid>

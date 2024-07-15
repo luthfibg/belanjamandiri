@@ -1,18 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, Box, CardContent, CardMedia, Typography, Badge, IconButton, CardHeader } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Rating from '@mui/material/Rating';
 import { capitalize } from 'lodash';
+import axios from 'axios';
 
-const ProductCard = ({ product }) => {
-  const [favorite, setFavorite] = React.useState(false);
-  const { product_type, product_cat, product_subcat, product_subcat2, product_price, product_tkdn_percentage, product_stars, product_image_1 } = product;
+const ProductCard = ({ product, customerId }) => {
+  const [favorite, setFavorite] = useState(false);
+  const { product_type, product_cat, product_subcat, product_subcat2, product_price, product_tkdn_percentage, product_stars, product_image_1, product_id } = product;
 
   const subCategory = product_cat === 'corporate' ? product_subcat : product_subcat2;
 
-  const handleFavoriteClick = () => {
-    setFavorite(!favorite);
+  useEffect(() => {
+    const checkIfFavorite = async () => {
+      try {
+        const response = await axios.get(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
+        setFavorite(response.data.isFavorite);
+      } catch (error) {
+        console.error('Error checking wishlist status:', error);
+      }
+    };
+
+    checkIfFavorite();
+  }, [customerId, product_id]);
+
+  const handleFavoriteClick = async () => {
+    try {
+      if (!favorite) {
+        await axios.post('http://localhost:2999/data/wishlist', {
+          customerId: customerId,
+          productId: product_id
+        });
+        setFavorite(true);
+        console.log('Product added to wishlist');
+      } else {
+        await axios.delete(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
+        setFavorite(false);
+        console.log('Product removed from wishlist');
+      }
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+    }
   };
 
   console.log('Product image URL:', product_image_1);
