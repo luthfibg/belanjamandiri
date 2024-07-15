@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Grid, Typography } from '@mui/material';
 import ProductCard from './ProductCard';
+import { capitalize } from 'lodash';
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -55,7 +56,9 @@ const ProductsList = () => {
     <Box>
       {Object.keys(categories).map((category) => (
         <Box key={category} mb={4}>
-          <Typography variant="h6" mb={2}>{category}</Typography>
+          <Typography fontSize={14} fontWeight={'bold'} color={'primary'} mb={2}>
+            {category === 'ifp' ? 'Interaktif Flat Panel' : category === 'ppd' ? 'Panel Presentation Display' : category === 'led aio' ? 'Led All In One' : capitalize(category)}
+          </Typography>
           <Box
             sx={{
               display: 'flex',

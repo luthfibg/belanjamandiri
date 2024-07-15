@@ -3,6 +3,7 @@ import { Card, CardActionArea, Box, CardContent, CardMedia, Typography, Badge, I
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Rating from '@mui/material/Rating';
+import { capitalize } from 'lodash';
 
 const ProductCard = ({ product }) => {
   const [favorite, setFavorite] = React.useState(false);
@@ -18,33 +19,33 @@ const ProductCard = ({ product }) => {
   return (
     <Card style={{ position: 'relative', width: 200 }}>
       <CardActionArea>
-        <Box height={150}>
-          <CardMedia
-            component="img"
-            height="auto"
-            image={product_image_1} // Use the image URL directly
-            alt={product_type}
-            onError={(e) => { e.target.onerror = null; e.target.src = "default-image.png"; }} // Replace with a default image if there's an error
-          />
-        </Box>
+        <CardMedia
+          component="img"
+          height="180"
+          image={product_image_1} // Use the image URL directly
+          alt={product_type}
+          onError={(e) => { e.target.onerror = null; e.target.src = "default-image.png"; }} // Replace with a default image if there's an error
+        />
         <CardContent>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography fontSize={14}>{product_type}</Typography>
+            <Typography fontSize={14} height={60} overflow={'hidden'} display={'-webkit-box'} sx={{ WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{product_type}</Typography>
             {product_tkdn_percentage > 0 && (
-              <Badge badgeContent="TKDN" color="error">
+              <Badge badgeContent={product_tkdn_percentage + '%'} color="error">
                 <Typography variant="body2" style={{ color: 'white' }}>
                   {product_tkdn_percentage}%
                 </Typography>
               </Badge>
             )}
           </div>
-          <Typography variant="body2" color="textSecondary">{subCategory}</Typography>
+          <Typography variant="body2" color={'text.disabled'} mt={1}>
+            {subCategory === 'ifp' ? 'Interaktif Flat Panel' : subCategory === 'ppd' ? 'Panel Presentation Display' : subCategory === 'led aio' ? 'Led All In One' : capitalize(subCategory)}
+          </Typography>
           <Typography fontSize={14} fontWeight={'bold'}>Rp {product_price}</Typography>
           <Rating value={product_stars} readOnly />
         </CardContent>
       </CardActionArea>
 
-      <IconButton style={{ position: 'absolute', top: -5, right: 5 }} onClick={handleFavoriteClick} color="secondary">
+      <IconButton style={{ position: 'absolute', top: -3, right: 0 }} onClick={handleFavoriteClick} color={favorite ? 'error' : 'primary'}>
         {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
       </IconButton>
     </Card>

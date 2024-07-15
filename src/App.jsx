@@ -6,6 +6,7 @@ import Shop from './pages/shop';
 import CustomerReg from './pages/CustomerReg';
 import OpenPage from './pages/OpenUser';
 import CustomerLogin from './pages/CustomerLogin';
+import './styles/scroll_custom.css';
 
 function App() {
   

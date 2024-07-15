@@ -12,12 +12,12 @@ import { blueGrey } from "@mui/material/colors";
 const MainHeader = () => {
     const userinfo = localStorage.getItem('fname');
     return (
-        <Box className="main-header" mb={2} sx={{ display: "flex", flexDirection: "column" }}>
+        <Box className="main-header" mb={5} sx={{ display: "flex", flexDirection: "column" }}>
             <Box className="main-header__top" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
                 <Typography variant="subtitle" mb={1}>{`Selamat Pagi, ${userinfo}`}</Typography>
                 <Typography fontSize={12} variant="body2" mb={1}>Mau belanja apa sekarang?</Typography>
             </Box>
-            <Stack className="main-header__bottom" direction="row" spacing={1} maxWidth={"100vw"} sx={{ overflow: "scroll" }}>
+            <Stack className="main-header__bottom scrollable-container" direction="row" spacing={1} maxWidth={"100vw"} sx={{ overflow: "scroll" }}>
                 <Chip label="Semua Kategori" variant="outlined" icon={<AppsIcon />} color="default" sx={{ bgcolor: blueGrey[50], cursor: "pointer" }} />
                 <Chip label="Corporate" variant="outlined" icon={<ApartmentIcon />} color="primary" sx={{ bgcolor: blueGrey[50], cursor: "pointer" }}/>
                 <Chip label="C&I" variant="outlined" icon={<HomeWorkIcon />} color="secondary" sx={{ bgcolor: blueGrey[50], cursor: "pointer" }}/>
