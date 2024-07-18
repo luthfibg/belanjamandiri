@@ -43,7 +43,12 @@ export default function Shop() {
 
   // Navigate to wishlist page
   const navigateToWishlist = () => {
-    navigate(`/wishlist/${customer_id}`);
+    navigate(`/my_wishlist/${customer_id}`);
+  };
+
+  // Navigate to wishlist page
+  const navigateToCart = () => {
+    navigate(`/my_cart/${customer_id}`);
   };
 
   // Open-closed drawer
@@ -88,7 +93,12 @@ export default function Shop() {
         settings={settings}
         logout={logout}
       />
-      <CustomDrawer open={open} handleDrawerClose={handleDrawerClose} isdesktop={isdesktop} navigateToWishlist={navigateToWishlist} />
+      <CustomDrawer open={open}
+      handleDrawerClose={handleDrawerClose}
+      isdesktop={isdesktop}
+      navigateToWishlist={navigateToWishlist}
+      navigateToCart={navigateToCart} />
+      
       <Main open={open} isdesktop={isdesktop}>
         <DrawerHeader />
         <MainHeader />

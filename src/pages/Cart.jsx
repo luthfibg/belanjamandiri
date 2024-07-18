@@ -1,4 +1,4 @@
-// Wishlist.jsx
+// Cart.jsx
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-export default function Wishlist() {
+export default function Cart() {
   const theme = useTheme();
   const isdesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
@@ -38,16 +38,16 @@ export default function Wishlist() {
     setOpen(isdesktop);
   }, [isdesktop]);
 
+  // Navigate to shop page
   const navigateToShop = () => {
     navigate(`/shop/${customer_id}`);
     console.log('Navigate to shop with customer_id:', customer_id);
   };
-
+  
   // Navigate to wishlist page
-  const navigateToCart = () => {
-    navigate(`/my_cart/${customer_id}`);
+  const navigateToWishlist = () => {
+    navigate(`/my_wishlist/${customer_id}`);
   };
-
 
   // open-closed drawer
   const handleDrawerOpen = () => {
@@ -92,14 +92,12 @@ export default function Wishlist() {
         settings={settings}
         logout={logout}
       />
-      
-      <CustomDrawer 
-      open={open}
-      handleDrawerClose={handleDrawerClose}
-      isdesktop={isdesktop}
-      navigateToShop={navigateToShop}
-      navigateToCart={navigateToCart} />
-
+      <CustomDrawer
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        isdesktop={isdesktop}
+        navigateToShop={navigateToShop}
+        navigateToWishlist={navigateToWishlist}/>
       <Main open={open} isdesktop={isdesktop}>
         <DrawerHeader />
       </Main>

@@ -39,7 +39,7 @@ const filterOptions = [
 ];
 
 function CustomDrawer(props) {
-    const { open, handleDrawerClose, isdesktop, navigateToShop, navigateToWishlist } = props;
+    const { open, handleDrawerClose, isdesktop, navigateToShop, navigateToWishlist, navigateToCart } = props;
     const theme = useTheme();
 
     // Menu drawer
@@ -67,7 +67,7 @@ function CustomDrawer(props) {
             <List>
                 {['Wishlist', 'Keranjang', 'Pesanan', 'Diberi Rating'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                    <ListItemButton onClick={index === 0 ? navigateToWishlist : null}>
+                    <ListItemButton onClick={index === 0 ? navigateToWishlist : index === 1 ? navigateToCart : null}>
                         <ListItemIcon>
                         {index === 0 ? <FavoriteIcon /> : index === 1 ? <ShoppingCartIcon /> : index === 2 ? <ViewStreamIcon /> : <StarRateIcon />}
                         </ListItemIcon>
