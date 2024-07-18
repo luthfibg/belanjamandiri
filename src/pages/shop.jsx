@@ -1,27 +1,14 @@
+// Shop.js
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
 import {
-    Box, Drawer, CssBaseline, AppBar, Toolbar, List, Typography,
-    Divider, IconButton, ListItem, ListItemText, ListItemButton,
-    useMediaQuery, Autocomplete, TextField, Modal,
-    Button, Tooltip, Avatar, Menu, MenuItem, Paper, InputBase
+  Box, CssBaseline, useMediaQuery
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ShopIcon from '@mui/icons-material/Shop';
-import CallIcon from '@mui/icons-material/Call';
-import InfoIcon from '@mui/icons-material/Info';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ViewStreamIcon from '@mui/icons-material/ViewStream';
-import StarRateIcon from '@mui/icons-material/StarRate';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import SearchIcon from '@mui/icons-material/Search';
 import MainHeader from '../components/MainHeader';
 import ProductsList from '../components/ProductList';
+import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
+import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
 
 const drawerWidth = 240;
 
@@ -38,57 +25,12 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-const CustomAppBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  backgroundColor: '#fff',
-  color: 'black',
-  boxShadow: '0 0px 5px rgba(100, 100, 100, 0.2)',
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    backgroundColor: '#fff',
-    color: 'black',
-    boxShadow: '0 0px 5px rgba(100, 100, 100, 0.2)',
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
-const SearchModalStyle = {
-  position: 'absolute',
-  top: '20%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: { xs: '90%', sm: '70%', md: '50%' },
-  bgcolor: 'background.paper',
-  borderRadius: '5px',
-  boxShadow: 24,
-  p: 4,
-};
-
-
-export default function ResponsivePersistentDrawer(props) {
+export default function Shop() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const [open, setOpen] = React.useState(isDesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [openSearch, setOpenSearch] = React.useState(false);
 
   const settings = ['Account', 'Logout'];
 
@@ -104,10 +46,13 @@ export default function ResponsivePersistentDrawer(props) {
     setOpen(false);
   };
 
-  // open-closed search modal for mobile screen
-  const handleOpenSearch = () => setOpenSearch(true);
-  const handleCloseSearch = () => setOpenSearch(false);
 
+  /**
+   * Sets the anchor element for the user menu to the current target of the event.
+   *
+   * @param {Event} event - The event that triggered the function.
+   * @return {void} This function does not return anything.
+   */
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -115,56 +60,6 @@ export default function ResponsivePersistentDrawer(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const drawer = (
-    <div>
-      <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-        </IconButton>
-      </DrawerHeader>
-      <Divider />
-      <List>
-        {['Belanja', 'Kontak Kami', 'Tentang Kami'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index === 0 ? <ShopIcon /> : index === 1 ? <CallIcon /> : <InfoIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Wishlist', 'Keranjang', 'Pesanan', 'Diberi Rating'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index === 0 ? <FavoriteIcon /> : index === 1 ? <ShoppingCartIcon /> : index === 2 ? <ViewStreamIcon /> : <StarRateIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <Autocomplete
-        multiple
-        limitTags={2}
-        id="multiple-limit-tags"
-        options={filterOptions}
-        getOptionLabel={(option) => option.title}
-        defaultValue={[filterOptions[2], filterOptions[3], filterOptions[4]]}
-        renderInput={(params) => (
-            <TextField {...params} label="Filter Pencarian" placeholder="Filter" />
-        )}
-        sx={{ width: '85%', margin: '1rem' }}
-        />
-        <Button sx={{ width: '85%', margin: '0 1rem 1rem 1rem' }} variant="contained">Cari</Button>
-    </div>
-  );
 
   const logout = () => {
     // Remove the JWT token from localStorage
@@ -174,138 +69,28 @@ export default function ResponsivePersistentDrawer(props) {
     window.location.href = '/login-customer';
   }
 
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <CustomAppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Belanja Mandiri
-          </Typography>
-          <Paper
-            component="form"
-            sx={{ p: '2px 4px', display: { xs: 'none', md: 'flex' }, alignItems: 'center', width: 400, flexGrow: 1 }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Kata Kunci Produk..."
-              inputProps={{ 'aria-label': 'kata kunci produk' }}
-            />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-              <SearchIcon />
-            </IconButton>
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-              <DirectionsIcon />
-            </IconButton>
-          </Paper>
-          <IconButton 
-            size="small" 
-            onClick={handleOpenSearch}
-            color="inherit"
-            sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
-            <SearchIcon/>
-          </IconButton>
-          <Modal
-            keepMounted
-            open={openSearch}
-            onClose={handleCloseSearch}
-            aria-labelledby="keep-mounted-modal-title"
-            aria-describedby="keep-mounted-modal-description"
-            >
-            <Box sx={SearchModalStyle}>
-              <Paper
-                component="form"
-                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', flexGrow: 1 }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
-                  placeholder="Kata Kunci Produk..."
-                  inputProps={{ 'aria-label': 'kata kunci produk' }}
-                />
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-                <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-                <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-                  <DirectionsIcon />
-                </IconButton>
-              </Paper>
-            </Box>
-          </Modal>
-          <Box sx={{ display: 'flex', flexGrow: { xs: 0, md: 1 }, marginRight: 1, marginLeft: { xs: 1, md: 2 }, justifyContent: 'flex-end' }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => setting === 'Logout' ? logout() : null}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </CustomAppBar>
-      <Drawer
-        variant={isDesktop ? "persistent" : "temporary"}
+      <CustomAppBar
         open={open}
-        onClose={handleDrawerClose}
-        sx={{
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-        }}
-      >
-        {drawer}
-      </Drawer>
-      <Main open={open} isDesktop={isDesktop} sx={{  width: '100%', height: '100vh', overflow: 'scroll' }}>
+        handleDrawerOpen={handleDrawerOpen}
+        handleOpenUserMenu={handleOpenUserMenu}
+        anchorElUser={anchorElUser}
+        handleCloseUserMenu={handleCloseUserMenu}
+        settings={settings}
+        logout={logout}
+      />
+      <CustomDrawer open={open} handleDrawerClose={handleDrawerClose} isDesktop={isDesktop} />
+      <Main open={open} isDesktop={isDesktop}>
         <DrawerHeader />
-        <MainHeader/>
-        <ProductsList/>
+        <MainHeader />
+        <ProductsList />
       </Main>
     </Box>
   );
 }
 
-ResponsivePersistentDrawer.propTypes = {
+Shop.propTypes = {
   window: PropTypes.func,
 };
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const filterOptions = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-];
