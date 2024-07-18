@@ -6,6 +6,7 @@ import Shop from './pages/shop';
 import CustomerReg from './pages/CustomerReg';
 import OpenPage from './pages/OpenUser';
 import CustomerLogin from './pages/CustomerLogin';
+import Wishlist from './pages/Wishlist';
 import './styles/scroll_custom.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register-customer" element={<CustomerReg/>}/>
           <Route path="/login-customer" element={<CustomerLogin/>}/>
           <Route path="/shop/:customer_id" element={<Shop/>}/>
+          <Route path="/wishlist/:customer_id" element={<Wishlist/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

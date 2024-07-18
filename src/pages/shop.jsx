@@ -2,6 +2,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, CssBaseline, useMediaQuery
 } from '@mui/material';
@@ -13,39 +14,45 @@ import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppB
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open, isDesktop }) => ({
+  ({ theme, open, isdesktop }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: isDesktop ? (open ? `${drawerWidth}px` : 0) : 0,
-    width: isDesktop ? (open ? `calc(100% - ${drawerWidth}px)` : '100%') : '100%',
+    marginLeft: isdesktop ? (open ? `${drawerWidth}px` : 0) : 0,
+    width: isdesktop ? (open ? `calc(100% - ${drawerWidth}px)` : '100%') : '100%',
   }),
 );
 
 export default function Shop() {
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const isdesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const navigate = useNavigate();
 
-  const [open, setOpen] = React.useState(isDesktop);
+  const [open, setOpen] = React.useState(isdesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { customer_id } = useParams(); // Mengambil customer_id dari URL
 
   const settings = ['Account', 'Logout'];
 
   React.useEffect(() => {
-    setOpen(isDesktop);
-  }, [isDesktop]);
+    setOpen(isdesktop);
+  }, [isdesktop]);
 
-  // open-closed drawer
+  // Navigate to wishlist page
+  const navigateToWishlist = () => {
+    navigate(`/wishlist/${customer_id}`);
+  };
+
+  // Open-closed drawer
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
 
   /**
    * Sets the anchor element for the user menu to the current target of the event.
@@ -81,8 +88,8 @@ export default function Shop() {
         settings={settings}
         logout={logout}
       />
-      <CustomDrawer open={open} handleDrawerClose={handleDrawerClose} isDesktop={isDesktop} />
-      <Main open={open} isDesktop={isDesktop}>
+      <CustomDrawer open={open} handleDrawerClose={handleDrawerClose} isdesktop={isdesktop} navigateToWishlist={navigateToWishlist} />
+      <Main open={open} isdesktop={isdesktop}>
         <DrawerHeader />
         <MainHeader />
         <ProductsList />

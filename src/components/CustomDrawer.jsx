@@ -39,9 +39,10 @@ const filterOptions = [
 ];
 
 function CustomDrawer(props) {
-    const { open, handleDrawerClose, isDesktop } = props;
+    const { open, handleDrawerClose, isdesktop, navigateToShop, navigateToWishlist } = props;
     const theme = useTheme();
 
+    // Menu drawer
     const drawer = (
         <div>
             <DrawerHeader>
@@ -53,7 +54,7 @@ function CustomDrawer(props) {
             <List>
                 {['Belanja', 'Kontak Kami', 'Tentang Kami'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={index === 0 ? navigateToShop : null}>
                             <ListItemIcon>
                                 {index === 0 ? <ShopIcon /> : index === 1 ? <CallIcon /> : <InfoIcon />}
                             </ListItemIcon>
@@ -66,12 +67,12 @@ function CustomDrawer(props) {
             <List>
                 {['Wishlist', 'Keranjang', 'Pesanan', 'Diberi Rating'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index === 0 ? <FavoriteIcon /> : index === 1 ? <ShoppingCartIcon /> : index === 2 ? <ViewStreamIcon /> : <StarRateIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
+                    <ListItemButton onClick={index === 0 ? navigateToWishlist : null}>
+                        <ListItemIcon>
+                        {index === 0 ? <FavoriteIcon /> : index === 1 ? <ShoppingCartIcon /> : index === 2 ? <ViewStreamIcon /> : <StarRateIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItemButton>
                     </ListItem>
                 ))}
             </List>
@@ -94,7 +95,7 @@ function CustomDrawer(props) {
 
     return (
         <Drawer
-            variant={isDesktop ? "persistent" : "temporary"}
+            variant={isdesktop ? "persistent" : "temporary"}
             open={open}
             onClose={handleDrawerClose}
             sx={{
