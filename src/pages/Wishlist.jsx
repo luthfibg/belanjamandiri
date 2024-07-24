@@ -91,7 +91,7 @@ export default function Wishlist() {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100%' }}>
       <CssBaseline />
       <CustomAppBar
         open={open}
@@ -110,10 +110,10 @@ export default function Wishlist() {
       navigateToShop={navigateToShop}
       navigateToCart={navigateToCart} />
 
-      <Main open={open} isdesktop={isdesktop}>
+      <Main open={open} isdesktop={isdesktop} sx={{ height: 'auto' }}>
         <DrawerHeader />
-        <Grid container spacing={2}>
-          <Grid item xs={12} lg={9} sx={{ height: '60vh' }}>
+        <Grid container spacing={2} height={'100%'}>
+          <Grid item xs={12} md={9} sx={{ height: { xs:'auto', md: '60vh'}, paddingBottom: { xs: '10px', md: 0 }, paddingRight: { xs: 0, md: 3 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2>My Wishlist</h2>
               <Stack direction="row" spacing={2} sx={{ ml: 'auto' }}>
@@ -131,8 +131,16 @@ export default function Wishlist() {
               }
             </Box>
           </Grid>
-          <Grid item xs={12} lg={3} sx={{ height: { xs: 'auto', lg: 'calc(100vh - 104px)' } }}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Grid item xs={12} md={3}
+            sx={{
+              position: { xs: 'relative', md: 'fixed' },
+              bottom: { xs: 20, md: 'auto' },
+              right: { xs: 0, md: 20 },
+              width: { xs: '100%', md: 'calc(25% - 40px)' },
+              zIndex: 1201,
+              height: { xs: '120px', md: 'calc(100vh - 104px)' }
+            }}>
+            <Paper sx={{ width: '100%', p: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
               <h2>Wishlist Summary</h2>
             </Paper>
           </Grid>

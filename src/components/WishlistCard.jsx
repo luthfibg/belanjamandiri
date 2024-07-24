@@ -12,7 +12,7 @@ const WishlistCard = ({ wish }) => {
     }
 
     return (
-        <Paper sx={{ width: "100%", display: "flex", justifyContent: "start" }}>
+        <Paper elevation={0} sx={{ width: "100%", display: "flex", justifyContent: "start", mb: 2 }}>
             <Box sx={{ m: 2, display: "flex" }}>
                 <Checkbox
                     onChange={handleChange}

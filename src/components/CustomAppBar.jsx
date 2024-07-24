@@ -35,7 +35,7 @@ const CustomAppBarStyled = styled(AppBar, {
 }));
 
 const SearchModalStyle = {
-    position: 'absolute',
+    position: 'relative',
     top: '20%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
