@@ -23,10 +23,10 @@ const WishlistCard = ({ wish }) => {
                     alt={wish.product_type}
                     style={{ width: "100px", height: "100px" }}
                 />
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <Typography>{wish.product_type}</Typography>
-                    <Typography>{wish.product_tkdn_percentage}</Typography>
-                    <Typography>{wish.product_price}</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column" }} ml={2}>
+                    <Typography fontSize={12}>{wish.product_type}</Typography>
+                    <Typography fontSize={12}>TKDN: {wish.product_tkdn_percentage}</Typography>
+                    <Typography fontSize={12}>Harga: {wish.product_price}</Typography>
                 </Box>
             </Box>
         </Paper>
