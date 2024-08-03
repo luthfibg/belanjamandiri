@@ -11,7 +11,7 @@ const ProductsList = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log('token: ', token);
+      // console.log('token: ', token);
       try {
         const response = await axios.get('http://localhost:2999/data/products_sale', {
           headers: {
@@ -19,7 +19,7 @@ const ProductsList = () => {
           }
         });
         setProducts(response.data);
-        console.log('Products fetched:', response.data);
+        // console.log('Products fetched:', response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
