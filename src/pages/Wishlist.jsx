@@ -32,6 +32,11 @@ const axiosInstance = axios.create({
   }
 });
 
+/**
+ * Renders the Wishlist page with user-specific wishlist items.
+ *
+ * @return {JSX.Element} The JSX element representing the Wishlist page.
+ */
 export default function Wishlist() {
   const theme = useTheme();
   const isdesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -69,9 +74,20 @@ export default function Wishlist() {
     navigate(`/my_cart/${customer_id}`);
   };
 
+  /**
+   * Sets the state of 'open' to true, opening the drawer.
+   *
+   * @return {void} 
+   */
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  
+  /**
+   * Closes the drawer by setting the 'open' state to false.
+   *
+   * @return {void} 
+   */
   const handleDrawerClose = () => {
     setOpen(false);
   };

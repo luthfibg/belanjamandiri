@@ -28,13 +28,14 @@ const ProductCard = ({ product, customerId }) => {
   
   const handleFavoriteClick = async () => {
     try {
+      console.log('CustomerID: ', customerId, 'ProductID: ', product_id, 'ProductCat: ', product_cat);
       if (!favorite) {
         await axios.post('http://localhost:2999/data/wishlist', {
           customerId: customerId,
           productId: product_id,
           productCat: product_cat
         });
-  
+        
         setFavorite(true);
         console.log('Product added to wishlist');
       } else {
