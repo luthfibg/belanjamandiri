@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardActionArea, Box, CardContent, CardMedia, Typography, Badge, IconButton, CardHeader } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Rating from '@mui/material/Rating';
@@ -9,7 +9,6 @@ import axios from 'axios';
 const ProductCard = ({ product, customerId }) => {
   const [favorite, setFavorite] = useState(false);
   const { product_type, product_cat, product_subcat, product_subcat2, product_price, product_tkdn_percentage, product_stars, product_image_1, product_id } = product;
-  
   const subCategory = product_cat === 'corporate' ? product_subcat : product_subcat2;
   
   useEffect(() => {

@@ -43,18 +43,25 @@ export default function Wishlist() {
   const navigate = useNavigate();
   const { customer_id } = useParams();
   const [wishlist, setWishlist] = React.useState([]);
+  const token = localStorage.getItem('token');
+  console.log('Token:', token);
 
   React.useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const response = await axiosInstance.get(`/data/wishlist/${customer_id}`);
+        const response = await axiosInstance.get(`/data/wishlist/${customer_id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         setWishlist(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchWishlist();
-  }, [customer_id]);
+  }, [customer_id, token]);
+  
 
   const [open, setOpen] = React.useState(isdesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
