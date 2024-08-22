@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
 import { capitalize } from 'lodash';
 import axios from 'axios';
@@ -73,7 +75,13 @@ const ProductCard = ({ product, customerId }) => {
             {subCategory === 'ifp' ? 'Interaktif Flat Panel' : subCategory === 'ppd' ? 'Panel Presentation Display' : subCategory === 'led aio' ? 'Led All In One' : capitalize(subCategory)}
           </Typography>
           <Typography fontSize={14} fontWeight={'bold'}>Rp {product_price}</Typography>
-          <Rating value={product_stars} readOnly />
+          <Rating value={product_stars} readOnly size="small" />
+          <ButtonGroup variant="contained" aria-label="Basic button group" size='small'>
+            <Button>
+              Keranjang
+            </Button>
+            <Button>Pesan</Button>
+          </ButtonGroup>
         </CardContent>
       </CardActionArea>
 
