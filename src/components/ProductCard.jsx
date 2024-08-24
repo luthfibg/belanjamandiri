@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton, Modal, Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import Box from '@mui/material/Box';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import TextField from '@mui/material/TextField';
+import LaunchIcon from '@mui/icons-material/Launch';
 import Rating from '@mui/material/Rating';
 import { capitalize } from 'lodash';
 import axios from 'axios';
@@ -12,6 +18,20 @@ const ProductCard = ({ product, customerId }) => {
   const [favorite, setFavorite] = useState(false);
   const { product_type, product_cat, product_subcat, product_subcat2, product_price, product_tkdn_percentage, product_stars, product_image_1, product_id } = product;
   const subCategory = product_cat === 'corporate' ? product_subcat : product_subcat2;
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
   
   useEffect(() => {
     const checkIfFavorite = async () => {
@@ -26,6 +46,19 @@ const ProductCard = ({ product, customerId }) => {
   
     checkIfFavorite();
   }, [customerId, product_id]);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '0.5px solid #aaa',
+    boxShadow: 24,
+    borderRadius: '0.5rem',
+    p: 4,
+  };
   
   const handleFavoriteClick = async () => {
     try {
@@ -48,6 +81,23 @@ const ProductCard = ({ product, customerId }) => {
       console.error('Error updating wishlist:', error);
     }
   };
+
+  const handleAddToCart = async () => {
+    console.log('Product added to cart:', product);
+    try {
+      await axios.post('http://localhost:2999/data/cart', {
+        customerId: customerId,
+        productId: product_id,
+        productCat: product_cat
+      });
+    } catch (error) {
+      
+    }
+  }
+
+  const handleOrderNow = () => {
+    console.log('Product ordered:', product);
+  }
     
   // console.log('Product image URL:', product_image_1);
   return (
@@ -77,10 +127,58 @@ const ProductCard = ({ product, customerId }) => {
           <Typography fontSize={14} fontWeight={'bold'}>Rp {product_price}</Typography>
           <Rating value={product_stars} readOnly size="small" />
           <ButtonGroup variant="contained" aria-label="Basic button group" size='small'>
-            <Button>
-              Keranjang
+            <Button onClick={handleOpen}>
+              <ShoppingCart fontSize='small'></ShoppingCart>&nbsp;
+              <Typography fontSize={12} textTransform={'capitalize'}>Keranjang</Typography>
             </Button>
-            <Button>Pesan</Button>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Box display={'flex'} alignItems={'start'} marginBottom={2}>
+                  <img src={product_image_1} alt={product_type} style={{ width: 100, height: 100, margin: '0.5rem' }} />
+                  <Box display="flex" flexDirection={'column'} ml={2} alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
+                    <Typography id="modal-modal-title" fontSize={14} margin={'0.5rem'}>
+                      {product_type}
+                    </Typography>
+                    <Stack direction="row" spacing={1}>
+                      <Button size='small' variant="contained" onClick={handleAddToCart}> <ShoppingCart fontSize='small'></ShoppingCart>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
+                      <Button size='small' variant="contained" onClick={handleAddToCart}> <LaunchIcon fontSize='small'></LaunchIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Selengkapnya</Typography> </Button>
+                    </Stack>
+                  </Box>
+                </Box>
+                <Box display="flex" alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
+                  <IconButton
+                    size="small"
+                    onClick={handleDecrease}
+                    disabled={quantity === 0}
+                    sx={{ borderRadius: 1 }}
+                  >
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <TextField
+                    value={quantity}
+                    size="small"
+                    inputProps={{
+                      style: { textAlign: 'center', width: 40, padding: '5px 0' }
+                    }}
+                    sx={{ mx: 1 }}
+                  />
+                  <IconButton
+                    size="small"
+                    onClick={handleIncrease}
+                    sx={{ borderRadius: 1 }}
+                  >
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+                
+              </Box>
+            </Modal>
+            <Button onClick={handleOrderNow}> <Typography fontSize={12} textTransform={'capitalize'}>Pesan</Typography> </Button>
           </ButtonGroup>
         </CardContent>
       </CardActionArea>
