@@ -87,17 +87,31 @@ const ProductCard = ({ product, customerId }) => {
 
   const handleAddToCart = async () => {
     console.log('Product added to cart:', product);
+  
     try {
-      await axios.post('http://localhost:2999/data/cart', {
+      // Pertama, buat entri baru di tabel carts
+      const cartResponse = await axios.post('http://localhost:2999/data/cart', {
         customerId: customerId,
-        productId: product_id,
-        productCat: product_cat
       });
+  
+      const cartId = cartResponse.data.cartId; // Dapatkan cart_id dari respons
+  
+      // Kedua, tambahkan produk ke corp_carts atau cni_carts
+      await axios.post('http://localhost:2999/data/cart-item', {
+        cartId: cartId,
+        productId: product_id,
+        productCat: product_cat,  // kategori produk: corporate atau c&i
+        productQty: quantity,      // kuantitas produk
+        productType: product_type  // jenis produk
+      });
+  
+      console.log('Product added to cart successfully');
+      handleClose();
     } catch (error) {
-      
+      console.error('Error adding to cart:', error);
     }
-  }
-
+  };
+  
   const handleOrderNow = () => {
     console.log('Product ordered:', product);
   }
