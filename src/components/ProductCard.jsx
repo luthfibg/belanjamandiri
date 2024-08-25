@@ -11,6 +11,7 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import TextField from '@mui/material/TextField';
 import LaunchIcon from '@mui/icons-material/Launch';
 import Rating from '@mui/material/Rating';
+import Snackbar from '@mui/material/Snackbar';
 import { capitalize } from 'lodash';
 import axios from 'axios';
 
@@ -22,6 +23,7 @@ const ProductCard = ({ product, customerId }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [quantity, setQuantity] = useState(1);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -32,6 +34,12 @@ const ProductCard = ({ product, customerId }) => {
       setQuantity(quantity - 1);
     }
   };
+
+   // Function untuk membuka snackbar
+   const handleOpenSnackbar = () => setOpenSnackbar(true);
+
+   // Function untuk menutup snackbar
+   const handleCloseSnackbar = () => setOpenSnackbar(false);
 
   // menghitung total harga berdasarkan jumlah yang dipilih
   const totalPrice = product_price * quantity;
@@ -106,6 +114,7 @@ const ProductCard = ({ product, customerId }) => {
       });
   
       console.log('Product added to cart successfully');
+      handleOpenSnackbar();
       handleClose();
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -152,6 +161,13 @@ const ProductCard = ({ product, customerId }) => {
               <ShoppingCart fontSize='small'></ShoppingCart>&nbsp;
               <Typography fontSize={12} textTransform={'capitalize'}>Keranjang</Typography>
             </Button>
+            {/* Snackbar untuk menampilkan pesan berhasil */}
+              <Snackbar
+              open={openSnackbar}
+              autoHideDuration={3000}
+              onClose={handleCloseSnackbar}
+              message="Produk berhasil disimpan di keranjang"
+            />
             <Modal
               open={open}
               onClose={handleClose}
