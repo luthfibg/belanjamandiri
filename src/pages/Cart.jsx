@@ -7,6 +7,8 @@ import {
 } from '@mui/material';
 import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
+import { Grid, Stack, Button, Divider, FormControlLabel, Checkbox, Paper } from '@mui/material';
+import CartComponent from '../components/CartComponent';
 
 const drawerWidth = 240;
 
@@ -28,7 +30,7 @@ export default function Cart() {
   const isdesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
   const { customer_id } = useParams();
-
+  const [cart, setCart] = React.useState([]);
   const [open, setOpen] = React.useState(isdesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -100,6 +102,39 @@ export default function Cart() {
         navigateToWishlist={navigateToWishlist}/>
       <Main open={open} isdesktop={isdesktop}>
         <DrawerHeader />
+        <Grid container spacing={2} height={'100%'}>
+          <Grid item xs={12} md={9} sx={{ height: { xs:'auto', md: '60vh'}, paddingBottom: { xs: '10px', md: 0 }, paddingRight: { xs: 0, md: 3 } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2>Keranjangku</h2>
+              <Stack direction="row" spacing={2} sx={{ ml: 'auto' }}>
+                <Button variant="contained" color="primary">Move to Cart</Button>
+                <Button variant="outlined" color="primary">Remove</Button>
+              </Stack>
+            </Box>
+            <Divider sx={{ mb: 2 }} orientation='horizontal' />
+            <Box>
+              <FormControlLabel control={<Checkbox />} label="Pilih Semua" />
+              {
+                cart.map((cart) => (
+                  <CartComponent key={cart.cart_id} cart={cart} />
+                ))
+              }
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={3}
+            sx={{
+              position: { xs: 'relative', md: 'fixed' },
+              bottom: { xs: 20, md: 'auto' },
+              right: { xs: 0, md: 20 },
+              width: { xs: '100%', md: 'calc(25% - 40px)' },
+              zIndex: 1201,
+              height: { xs: '120px', md: 'calc(100vh - 104px)' }
+            }}>
+            <Paper sx={{ width: '100%', p: 2, display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <h2>Cart Summary</h2>
+            </Paper>
+          </Grid>
+        </Grid>
       </Main>
     </Box>
   );
