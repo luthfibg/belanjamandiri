@@ -32,7 +32,10 @@ const ProductCard = ({ product, customerId }) => {
       setQuantity(quantity - 1);
     }
   };
-  
+
+  // menghitung total harga berdasarkan jumlah yang dipilih
+  const totalPrice = product_price * quantity;
+
   useEffect(() => {
     const checkIfFavorite = async () => {
       try {
@@ -98,6 +101,10 @@ const ProductCard = ({ product, customerId }) => {
   const handleOrderNow = () => {
     console.log('Product ordered:', product);
   }
+
+  const handleOpenCompletely = () => {
+    console.log('Product opened:', product);
+  }
     
   // console.log('Product image URL:', product_image_1);
   return (
@@ -140,13 +147,16 @@ const ProductCard = ({ product, customerId }) => {
               <Box sx={style}>
                 <Box display={'flex'} alignItems={'start'} marginBottom={2}>
                   <img src={product_image_1} alt={product_type} style={{ width: 100, height: 100, margin: '0.5rem' }} />
-                  <Box display="flex" flexDirection={'column'} ml={2} alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
+                  <Box display="flex" flexDirection={'column'} ml={2} alignItems="start" sx={{ width: 'auto', height: 'auto' }}>
                     <Typography id="modal-modal-title" fontSize={14} margin={'0.5rem'}>
                       {product_type}
                     </Typography>
+                    <Typography id="modal-modal-subtitle" fontSize={14} margin={'0.5rem'} fontWeight={'bold'}>
+                      Rp &nbsp;{totalPrice}
+                    </Typography>
                     <Stack direction="row" spacing={1}>
                       <Button size='small' variant="contained" onClick={handleAddToCart}> <ShoppingCart fontSize='small'></ShoppingCart>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
-                      <Button size='small' variant="contained" onClick={handleAddToCart}> <LaunchIcon fontSize='small'></LaunchIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Selengkapnya</Typography> </Button>
+                      <Button size='small' variant="contained" onClick={handleOpenCompletely}> <LaunchIcon fontSize='small'></LaunchIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Selengkapnya</Typography> </Button>
                     </Stack>
                   </Box>
                 </Box>
