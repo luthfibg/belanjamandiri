@@ -1,6 +1,12 @@
 import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, ButtonGroup, Button } from "@mui/material";
 
+const cartButtons = [
+    <Button key={1} variant="contained" color="primary">Pesan</Button>,
+    <Button key={2} variant="contained" color="primary">Edit</Button>,
+    <Button key={3} variant="contained" color="primary">Pindah ke Wishlist</Button>,
+    <Button key={4} variant="outlined" color="danger">Hapus</Button>
+]
 const CartComponent = ({ cart }) => {
 
     if (!cart || !cart.product_image_1) {
@@ -20,6 +26,15 @@ const CartComponent = ({ cart }) => {
                     <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
                     <Typography fontSize={12}>Jumlah: {cart.product_qty}</Typography>
                     <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
+                </Box>
+                <Box>
+                <ButtonGroup
+                    orientation="vertical"
+                    aria-label="Vertical button group"
+                    variant="contained"
+                >
+                    {cartButtons}
+                </ButtonGroup>
                 </Box>
             </Box>
         </Paper>
