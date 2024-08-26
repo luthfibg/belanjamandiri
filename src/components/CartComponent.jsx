@@ -18,6 +18,8 @@ const CartComponent = ({ cart }) => {
                     <Typography fontSize={12}>{cart.product_type}</Typography>
                     <Typography fontSize={12}>TKDN: {cart.product_tkdn_percentage}</Typography>
                     <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
+                    <Typography fontSize={12}>Jumlah: {cart.product_qty}</Typography>
+                    <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
                 </Box>
             </Box>
         </Paper>

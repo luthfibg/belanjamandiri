@@ -7,8 +7,9 @@ import {
 } from '@mui/material';
 import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
-import { Grid, Stack, Button, Divider, FormControlLabel, Checkbox, Paper } from '@mui/material';
+import { Grid, Stack, Button, Divider, Paper } from '@mui/material';
 import CartComponent from '../components/CartComponent';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -25,6 +26,13 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:2999',
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  }
+});
+
 export default function Cart() {
   const theme = useTheme();
   const isdesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -33,6 +41,7 @@ export default function Cart() {
   const [cart, setCart] = React.useState([]);
   const [open, setOpen] = React.useState(isdesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const token = localStorage.getItem('token');
 
   const settings = ['Account', 'Logout'];
 
@@ -83,17 +92,20 @@ export default function Cart() {
   }
 
   React.useEffect(() => {
-    const fetchCart = async () => { // Fetch cart data from the backend
+    const fetchCart = async () => {
       try {
-        const response = await fetch(`/data/cart/${customer_id}`);
-        const data = await response.json();
-        setCart(data);
+        const response = await axiosInstance.get(`/data/cart/${customer_id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setCart(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchCart();
-  }, [customer_id]);
+  }, [customer_id, token]);
 
   return (
     <Box sx={{ display: 'flex' }}>
