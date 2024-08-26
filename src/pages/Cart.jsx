@@ -82,6 +82,19 @@ export default function Cart() {
     window.location.href = '/login-customer';
   }
 
+  React.useEffect(() => {
+    const fetchCart = async () => { // Fetch cart data from the backend
+      try {
+        const response = await fetch(`/data/cart/${customer_id}`);
+        const data = await response.json();
+        setCart(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCart();
+  }, [customer_id]);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -113,7 +126,6 @@ export default function Cart() {
             </Box>
             <Divider sx={{ mb: 2 }} orientation='horizontal' />
             <Box>
-              <FormControlLabel control={<Checkbox />} label="Pilih Semua" />
               {
                 cart.map((cart) => (
                   <CartComponent key={cart.cart_id} cart={cart} />
