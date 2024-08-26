@@ -44,7 +44,6 @@ export default function Wishlist() {
   const { customer_id } = useParams();
   const [wishlist, setWishlist] = React.useState([]);
   const token = localStorage.getItem('token');
-  console.log('Token:', token);
 
   React.useEffect(() => {
     const fetchWishlist = async () => {
