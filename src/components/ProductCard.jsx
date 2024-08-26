@@ -93,20 +93,27 @@ const ProductCard = ({ product, customerId }) => {
     }
   };
 
+  
+  /**
+   * Fungsi untuk menambahkan produk ke keranjang
+   * Data yang dikirimkan ke backend:
+   *  - customerId: ID pelanggan
+   *  - productId: ID produk
+   *  - productCat: kategori produk (corporate atau c&i)
+   *  - productQty: kuantitas produk yang akan ditambahkan
+   *  - productType: jenis produk (optional)
+   * Jika berhasil, maka akan menampilkan snackbar dan menutup modal.
+   * Jika gagal, maka akan menampilkan pesan error di console.
+   */
+
+  // Fungsi untuk menambahkan produk ke keranjang
   const handleAddToCart = async () => {
     console.log('Product added to cart:', product);
   
     try {
-      // Pertama, buat entri baru di tabel carts
-      const cartResponse = await axios.post('http://localhost:2999/data/cart', {
+      // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
+      await axios.post('http://localhost:2999/data/cart', {
         customerId: customerId,
-      });
-  
-      const cartId = cartResponse.data.cartId; // Dapatkan cart_id dari respons
-  
-      // Kedua, tambahkan produk ke corp_carts atau cni_carts
-      await axios.post('http://localhost:2999/data/cart-item', {
-        cartId: cartId,
         productId: product_id,
         productCat: product_cat,  // kategori produk: corporate atau c&i
         productQty: quantity,      // kuantitas produk
@@ -120,7 +127,7 @@ const ProductCard = ({ product, customerId }) => {
       console.error('Error adding to cart:', error);
     }
   };
-  
+      
   const handleOrderNow = () => {
     console.log('Product ordered:', product);
   }
