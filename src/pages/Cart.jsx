@@ -96,6 +96,7 @@ export default function Cart() {
       try {
         const response = await axiosInstance.get(`/data/cart/${customer_id}`);
         setCart(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
