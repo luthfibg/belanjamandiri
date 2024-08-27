@@ -10,19 +10,22 @@ import axios from 'axios'; // Pastikan axios di-import
 function DeleteCartConfirmDialogRaw(props) {
     const { cart_id, product_id, product_cat, onClose, open, ...other } = props;
 
-    console.log('Cart ID:', cart_id, 'Product ID:', product_id, 'Product Cat:', product_cat);
     const handleCancel = () => {
         onClose();
     };
     
     const handleOk = async () => {
         try {
+            console.log("Cart ID:", cart_id, "Product ID:", product_id, "Product Cat:", product_cat);
             // Mengirimkan request delete cart item ke backend
-            await axios.delete(`/data/cart/remove/${cart_id}`, {
-                cartId: cart_id,
-                productId: product_id,
-                productCat: product_cat
+            await axios.delete(`http://localhost:2999/data/cart/remove/${cart_id}`, {
+                params: {
+                    cartId: cart_id,
+                    productId: product_id,
+                    productCat: product_cat
+                }
             });
+            
 
             // Memperbarui UI atau melakukan refresh halaman
             window.location.reload(); // Refresh halaman setelah penghapusan berhasil
