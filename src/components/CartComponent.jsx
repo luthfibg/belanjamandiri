@@ -5,36 +5,40 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-
+import axios from 'axios'; // Pastikan axios di-import
 
 function DeleteCartConfirmDialogRaw(props) {
-    const { onClose, value: valueProp, open, ...other } = props;
-    const [value, setValue] = React.useState(valueProp);
-  
-    React.useEffect(() => {
-      if (!open) {
-        setValue(valueProp);
-      }
-    }, [valueProp, open]);  
-    
+    const { cart_id, product_id, product_cat, onClose, open, ...other } = props;
+
+    console.log('Cart ID:', cart_id, 'Product ID:', product_id, 'Product Cat:', product_cat);
     const handleCancel = () => {
         onClose();
     };
     
-    const handleOk = () => {
-    onClose(value);
+    const handleOk = async () => {
+        try {
+            // Mengirimkan request delete cart item ke backend
+            await axios.delete(`/data/cart/remove/${cart_id}`, {
+                cartId: cart_id,
+                productId: product_id,
+                productCat: product_cat
+            });
+
+            // Memperbarui UI atau melakukan refresh halaman
+            window.location.reload(); // Refresh halaman setelah penghapusan berhasil
+        } catch (error) {
+            console.error("Error menghapus produk dari keranjang:", error);
+        }
+
+        onClose(); // Menutup dialog setelah penghapusan
     };
-    
-    const handleChange = (event) => {
-    setValue(event.target.value);
-    };    
 
     return (
         <Dialog
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
-        maxWidth="xs"
-        open={open}
-        {...other}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+            maxWidth="xs"
+            open={open}
+            {...other}
         >
             <DialogTitle>Konfirmasi Kembalikan Produk</DialogTitle>
             <DialogContent>
@@ -47,30 +51,26 @@ function DeleteCartConfirmDialogRaw(props) {
                 <Button onClick={handleOk}>Ya</Button>
             </DialogActions>
         </Dialog>
-    )
-    
+    );
 }
 
 DeleteCartConfirmDialogRaw.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    value: PropTypes.string.isRequired,
+    cart_id: PropTypes.number.isRequired,
+    product_id: PropTypes.number.isRequired,
+    product_cat: PropTypes.string.isRequired,
 };
 
 const CartComponent = ({ cart }) => {
     const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState('Dione');
 
     const handleClickDelete = () => {
         setOpen(true);
     };
     
-    const handleClose = (newValue) => {
-    setOpen(false);
-
-    if (newValue) {
-        setValue(newValue);
-    }
+    const handleClose = () => {
+        setOpen(false);
     };
 
     if (!cart || !cart.product_image_1) {
@@ -81,8 +81,8 @@ const CartComponent = ({ cart }) => {
         <Button key={1} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Pesan</Button>,
         <Button key={2} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Edit</Button>,
         <Button key={3} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Wishlistkan</Button>,
-        <Button key={4} variant="text" size="small" color="error" style={{ textTransform: "capitalize" }} onClick={handleClickDelete} aria-haspopup="true" aria-controls="del-cart-item">Hapus</Button>
-    ]
+        <Button key={4} variant="text" size="small" color="error" style={{ textTransform: "capitalize" }} onClick={handleClickDelete}>Hapus</Button>
+    ];
 
     return (
         <>
@@ -98,7 +98,7 @@ const CartComponent = ({ cart }) => {
                     <Typography fontSize={12}>TKDN: {cart.product_tkdn_percentage}</Typography>
                     <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
                     <Typography fontSize={12}>Jumlah: {cart.product_qty}</Typography>
-                    <Typography fontSize={12}>Harga: {cart.product_price}</Typography>
+                    <Typography fontSize={12}>Subtotal: {cart.subtotal_price}</Typography>
                 </Box>
                 <Box justifyContent={"end"} alignItems={"flex-end"}>
                     <ButtonGroup
@@ -110,11 +110,12 @@ const CartComponent = ({ cart }) => {
                         {cartButtons}
                     </ButtonGroup>
                     <DeleteCartConfirmDialogRaw
-                        id="del-cart-item"
-                        keepMounted
+                        key={cart.cart_id}
+                        cart_id={cart.cart_id}
+                        product_id={cart.product_id}
+                        product_cat={cart.product_cat}
                         open={open}
                         onClose={handleClose}
-                        value={value}
                     />
                 </Box>
             </Box>
