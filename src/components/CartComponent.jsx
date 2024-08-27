@@ -1,9 +1,12 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import { Box, Paper, Typography, ButtonGroup, Button } from "@mui/material";
+import { Box, Paper, Typography, ButtonGroup, Button, Modal, Snackbar, Stack, IconButton, TextField } from "@mui/material";
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import SaveIcon from '@mui/icons-material/Save';
+import RemoveIcon from '@mui/icons-material/Remove';
+import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
 import axios from 'axios'; // Pastikan axios di-import
 
@@ -66,8 +69,36 @@ DeleteCartConfirmDialogRaw.propTypes = {
 };
 
 const CartComponent = ({ cart }) => {
+    const [product, setProduct] = useState([]);
     const [open, setOpen] = React.useState(false);
-
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+    const [quantity, setQuantity] = useState(1);
+    const { product_id, product_cat, product_type, product_price, product_image_1 } = product;
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const token = localStorage.getItem('token');
+    const customerId = localStorage.getItem('customer_id');
+  
+    useEffect(() => {
+        const fetchProducts = async () => {
+          // console.log('token: ', token);
+          try {
+            const response = await axios.get('http://localhost:2999/data/products_sale', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            setProduct(response.data);
+            // console.log('Products fetched:', response.data);
+          } catch (error) {
+            console.error('Error fetching products:', error);
+          }
+        };
+    
+        fetchProducts();
+    }, [token]);
+    
     const handleClickDelete = () => {
         setOpen(true);
     };
@@ -76,16 +107,71 @@ const CartComponent = ({ cart }) => {
         setOpen(false);
     };
 
+    const handleIncrease = () => {
+        setQuantity(quantity + 1);
+    };
+
+    const handleDecrease = () => {
+        if (quantity > 0) {
+            setQuantity(quantity - 1);
+        }
+    };
+    // Function untuk membuka snackbar
+    const handleOpenSnackbar = () => setOpenSnackbar(true);
+
+    // Function untuk menutup snackbar
+    const handleCloseSnackbar = () => setOpenSnackbar(false);
+
+    // menghitung total harga berdasarkan jumlah yang dipilih
+    const totalPrice = product_price * quantity;
+
+    const handleAddToCart = async () => {
+        console.log('Product added to cart:', product);
+      
+        try {
+          // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
+          await axios.put('http://localhost:2999/data/cart', {
+            customerId: customerId,
+            productId: product_id,
+            productCat: product_cat,  // kategori produk: corporate atau c&i
+            productQty: quantity,      // kuantitas produk
+            productType: product_type  // jenis produk
+          });
+      
+          console.log('Product added to cart successfully');
+          handleOpenSnackbar();
+          handleClose();
+        } catch (error) {
+          console.error('Error adding to cart:', error);
+        }
+    };
+    
+    
+
     if (!cart || !cart.product_image_1) {
         return null;
     }
 
     const cartButtons = [
         <Button key={1} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Pesan</Button>,
-        <Button key={2} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Edit</Button>,
+        <Button key={2} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }} onClick={handleOpenModal}>Ubah</Button>,
         <Button key={3} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Wishlistkan</Button>,
         <Button key={4} variant="text" size="small" color="error" style={{ textTransform: "capitalize" }} onClick={handleClickDelete}>Hapus</Button>
     ];
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '0.5px solid #aaa',
+        boxShadow: 24,
+        borderRadius: '0.5rem',
+        p: 4,
+     };
+    
 
     return (
         <>
@@ -112,6 +198,62 @@ const CartComponent = ({ cart }) => {
                     >
                         {cartButtons}
                     </ButtonGroup>
+                    {/* Snackbar untuk menampilkan pesan berhasil */}
+                    <Snackbar
+                        open={openSnackbar}
+                        autoHideDuration={3000}
+                        onClose={handleCloseSnackbar}
+                        message="Produk berhasil disimpan di keranjang"
+                    />
+                    <Modal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                        >
+                        <Box sx={style}>
+                            <Box display={'flex'} alignItems={'start'} marginBottom={2}>
+                            <img src={product_image_1} alt={product_type} style={{ width: 100, height: 100, margin: '0.5rem' }} />
+                            <Box display="flex" flexDirection={'column'} ml={2} alignItems="start" sx={{ width: 'auto', height: 'auto' }}>
+                                <Typography id="modal-modal-title" fontSize={14} margin={'0.5rem'}>
+                                {product_type}
+                                </Typography>
+                                <Typography id="modal-modal-subtitle" fontSize={14} margin={'0.5rem'} fontWeight={'bold'}>
+                                Rp &nbsp;{totalPrice}
+                                </Typography>
+                                <Stack direction="row" spacing={1}>
+                                <Button size='small' variant="contained" onClick={handleAddToCart}> <SaveIcon fontSize='small'></SaveIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
+                                </Stack>
+                            </Box>
+                            </Box>
+                            <Box display="flex" alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
+                            <IconButton
+                                size="small"
+                                onClick={handleDecrease}
+                                disabled={quantity === 0}
+                                sx={{ borderRadius: 1 }}
+                            >
+                                <RemoveIcon fontSize="small" />
+                            </IconButton>
+                            <TextField
+                                value={quantity}
+                                size="small"
+                                inputProps={{
+                                style: { textAlign: 'center', width: 40, padding: '5px 0' }
+                                }}
+                                sx={{ mx: 1 }}
+                            />
+                            <IconButton
+                                size="small"
+                                onClick={handleIncrease}
+                                sx={{ borderRadius: 1 }}
+                            >
+                                <AddIcon fontSize="small" />
+                            </IconButton>
+                            </Box>
+                            
+                        </Box>
+                    </Modal>
                     <DeleteCartConfirmDialogRaw
                         key={cart.cart_id}
                         cart_id={cart.cart_id}

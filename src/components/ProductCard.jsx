@@ -47,7 +47,6 @@ const ProductCard = ({ product, customerId }) => {
   useEffect(() => {
     const checkIfFavorite = async () => {
       try {
-        console.log('Checking favorite for customer:', customerId, 'and product:', product_id);
         const response = await axios.get(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
         setFavorite(response.data.isFavorite);
       } catch (error) {
@@ -92,19 +91,6 @@ const ProductCard = ({ product, customerId }) => {
       console.error('Error updating wishlist:', error);
     }
   };
-
-  
-  /**
-   * Fungsi untuk menambahkan produk ke keranjang
-   * Data yang dikirimkan ke backend:
-   *  - customerId: ID pelanggan
-   *  - productId: ID produk
-   *  - productCat: kategori produk (corporate atau c&i)
-   *  - productQty: kuantitas produk yang akan ditambahkan
-   *  - productType: jenis produk (optional)
-   * Jika berhasil, maka akan menampilkan snackbar dan menutup modal.
-   * Jika gagal, maka akan menampilkan pesan error di console.
-   */
 
   // Fungsi untuk menambahkan produk ke keranjang
   const handleAddToCart = async () => {
@@ -169,7 +155,7 @@ const ProductCard = ({ product, customerId }) => {
               <Typography fontSize={12} textTransform={'capitalize'}>Keranjang</Typography>
             </Button>
             {/* Snackbar untuk menampilkan pesan berhasil */}
-              <Snackbar
+            <Snackbar
               open={openSnackbar}
               autoHideDuration={3000}
               onClose={handleCloseSnackbar}
