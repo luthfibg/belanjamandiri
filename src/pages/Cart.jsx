@@ -127,10 +127,6 @@ export default function Cart() {
           <Grid item xs={12} md={9} sx={{ height: { xs:'auto', md: '60vh'}, paddingBottom: { xs: '10px', md: 0 }, paddingRight: { xs: 0, md: 3 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2>Keranjangku</h2>
-              <Stack direction="row" spacing={2} sx={{ ml: 'auto' }}>
-                <Button variant="contained" color="primary">Move to Cart</Button>
-                <Button variant="outlined" color="primary">Remove</Button>
-              </Stack>
             </Box>
             <Divider sx={{ mb: 2 }} orientation='horizontal' />
             <Box>
