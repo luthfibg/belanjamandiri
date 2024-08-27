@@ -69,36 +69,14 @@ DeleteCartConfirmDialogRaw.propTypes = {
 };
 
 const CartComponent = ({ cart }) => {
-    const [product, setProduct] = useState([]);
     const [open, setOpen] = React.useState(false);
     const [openModal, setOpenModal] = useState(false);
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
-    const [quantity, setQuantity] = useState(1);
-    const { product_id, product_cat, product_type, product_price, product_image_1 } = product;
+    const [quantity, setQuantity] = useState(cart.product_qty);
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const token = localStorage.getItem('token');
     const customerId = localStorage.getItem('customer_id');
-  
-    useEffect(() => {
-        const fetchProducts = async () => {
-          // console.log('token: ', token);
-          try {
-            const response = await axios.get('http://localhost:2999/data/products_sale', {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            });
-            setProduct(response.data);
-            // console.log('Products fetched:', response.data);
-          } catch (error) {
-            console.error('Error fetching products:', error);
-          }
-        };
-    
-        fetchProducts();
-    }, [token]);
-    
+
     const handleClickDelete = () => {
         setOpen(true);
     };
@@ -123,19 +101,18 @@ const CartComponent = ({ cart }) => {
     const handleCloseSnackbar = () => setOpenSnackbar(false);
 
     // menghitung total harga berdasarkan jumlah yang dipilih
-    const totalPrice = product_price * quantity;
+    const totalPrice = cart.product_price * quantity;
 
     const handleAddToCart = async () => {
-        console.log('Product added to cart:', product);
       
         try {
           // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
           await axios.put('http://localhost:2999/data/cart', {
             customerId: customerId,
-            productId: product_id,
-            productCat: product_cat,  // kategori produk: corporate atau c&i
+            productId: cart.product_id,
+            productCat: cart.product_cat,  // kategori produk: corporate atau c&i
             productQty: quantity,      // kuantitas produk
-            productType: product_type  // jenis produk
+            productType: cart.Boxproduct_type  // jenis produk
           });
       
           console.log('Product added to cart successfully');
@@ -172,7 +149,6 @@ const CartComponent = ({ cart }) => {
         p: 4,
      };
     
-
     return (
         <>
         <Paper elevation={0} sx={{ width: "100%", display: "flex", justifyContent: "start", mb: 2 }}>
@@ -205,55 +181,61 @@ const CartComponent = ({ cart }) => {
                         onClose={handleCloseSnackbar}
                         message="Produk berhasil disimpan di keranjang"
                     />
-                    <Modal
+                    { cart ? (
+                        <Modal
                         open={openModal}
                         onClose={handleCloseModal}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                         >
-                        <Box sx={style}>
-                            <Box display={'flex'} alignItems={'start'} marginBottom={2}>
-                            <img src={product_image_1} alt={product_type} style={{ width: 100, height: 100, margin: '0.5rem' }} />
-                            <Box display="flex" flexDirection={'column'} ml={2} alignItems="start" sx={{ width: 'auto', height: 'auto' }}>
-                                <Typography id="modal-modal-title" fontSize={14} margin={'0.5rem'}>
-                                {product_type}
-                                </Typography>
-                                <Typography id="modal-modal-subtitle" fontSize={14} margin={'0.5rem'} fontWeight={'bold'}>
-                                Rp &nbsp;{totalPrice}
-                                </Typography>
-                                <Stack direction="row" spacing={1}>
-                                <Button size='small' variant="contained" onClick={handleAddToCart}> <SaveIcon fontSize='small'></SaveIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
-                                </Stack>
+                            <Box sx={style}>
+                                <Box display={'flex'} alignItems={'start'} marginBottom={2}>
+                                <img src={cart.product_image_1} alt={cart.product_type} style={{ width: 100, height: 100, margin: '0.5rem' }} />
+                                <Box display="flex" flexDirection={'column'} ml={2} alignItems="start" sx={{ width: 'auto', height: 'auto' }}>
+                                    <Typography id="modal-modal-title" fontSize={14} margin={'0.5rem'}>
+                                    {cart.product_type}
+                                    </Typography>
+                                    <Typography id="modal-modal-subtitle" fontSize={14} margin={'0.5rem'} fontWeight={'bold'}>
+                                    Rp &nbsp;{totalPrice}
+                                    </Typography>
+                                    <Stack direction="row" spacing={1}>
+                                    <Button size='small' variant="contained" onClick={handleAddToCart}> <SaveIcon fontSize='small'></SaveIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
+                                    </Stack>
+                                </Box>
+                                </Box>
+                                <Box display="flex" alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
+                                <IconButton
+                                    size="small"
+                                    onClick={handleDecrease}
+                                    disabled={quantity === 0}
+                                    sx={{ borderRadius: 1 }}
+                                >
+                                    <RemoveIcon fontSize="small" />
+                                </IconButton>
+                                <TextField
+                                    value={quantity}
+                                    size="small"
+                                    inputProps={{
+                                        style: { textAlign: 'center', width: 40, padding: '5px 0' }
+                                    }}
+                                    sx={{ mx: 1 }}
+                                    onChange={(e) => setQuantity(e.target.value)} // Update quantity saat user mengubah input
+                                />
+
+                                <IconButton
+                                    size="small"
+                                    onClick={handleIncrease}
+                                    sx={{ borderRadius: 1 }}
+                                >
+                                    <AddIcon fontSize="small" />
+                                </IconButton>
+                                </Box>
                             </Box>
-                            </Box>
-                            <Box display="flex" alignItems="center" sx={{ width: 'auto', height: 'auto' }}>
-                            <IconButton
-                                size="small"
-                                onClick={handleDecrease}
-                                disabled={quantity === 0}
-                                sx={{ borderRadius: 1 }}
-                            >
-                                <RemoveIcon fontSize="small" />
-                            </IconButton>
-                            <TextField
-                                value={quantity}
-                                size="small"
-                                inputProps={{
-                                style: { textAlign: 'center', width: 40, padding: '5px 0' }
-                                }}
-                                sx={{ mx: 1 }}
-                            />
-                            <IconButton
-                                size="small"
-                                onClick={handleIncrease}
-                                sx={{ borderRadius: 1 }}
-                            >
-                                <AddIcon fontSize="small" />
-                            </IconButton>
-                            </Box>
-                            
-                        </Box>
-                    </Modal>
+                        </Modal>
+                                                       
+                    ): 
+                        <Typography>Loading ...</Typography>
+                    }
                     <DeleteCartConfirmDialogRaw
                         key={cart.cart_id}
                         cart_id={cart.cart_id}
