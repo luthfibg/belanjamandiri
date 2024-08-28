@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
-import { Grid, Stack, Button, Divider, Paper } from '@mui/material';
+import { Grid, Divider, Paper } from '@mui/material';
 import CartComponent from '../components/CartComponent';
 import axios from 'axios';
 
@@ -96,7 +96,6 @@ export default function Cart() {
       try {
         const response = await axiosInstance.get(`/data/cart/${customer_id}`);
         setCart(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }

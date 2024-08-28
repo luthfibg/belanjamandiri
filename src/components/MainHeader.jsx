@@ -10,11 +10,12 @@ import PrintIcon from '@mui/icons-material/Print';
 import { blueGrey } from "@mui/material/colors";
 
 const MainHeader = () => {
-    const userinfo = localStorage.getItem('fname');
+    const userinfo = localStorage.getItem('customer_fname');
+    console.log("Nama Pengguna:", userinfo)
     return (
         <Box className="main-header" mb={5} sx={{ display: "flex", flexDirection: "column" }}>
             <Box className="main-header__top" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
-                <Typography variant="subtitle" mb={1}>{`Selamat Pagi, ${userinfo}`}</Typography>
+                <Typography variant="subtitle" mb={1}>{`Selamat Datang, ${userinfo}`}</Typography>
                 <Typography fontSize={12} variant="body2" mb={1}>Mau belanja apa sekarang?</Typography>
             </Box>
             <Stack className="main-header__bottom scrollable-container" direction="row" spacing={1} maxWidth={"100vw"} sx={{ overflow: "scroll" }}>

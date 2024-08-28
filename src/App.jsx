@@ -9,6 +9,7 @@ import CustomerLogin from './pages/CustomerLogin';
 import Wishlist from './pages/Wishlist';
 import Cart from './pages/Cart';
 import './styles/scroll_custom.css';
+import DetailProduct from './pages/DetailProduct';
 
 function App() {
   
@@ -23,6 +24,7 @@ function App() {
           <Route path="/shop/:customer_id" element={<Shop/>}/>
           <Route path="/my_wishlist/:customer_id" element={<Wishlist/>}/>
           <Route path="/my_cart/:customer_id" element={<Cart/>}/>
+          <Route path="/product/:product_id" element={<DetailProduct/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
