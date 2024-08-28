@@ -51,6 +51,11 @@ export default function Shop() {
     navigate(`/my_cart/${customer_id}`);
   };
 
+  // Navigate to contact page
+  const navigateToContact = () => {
+    navigate(`/contact-us`);
+  };
+
   // Open-closed drawer
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -97,7 +102,8 @@ export default function Shop() {
       handleDrawerClose={handleDrawerClose}
       isdesktop={isdesktop}
       navigateToWishlist={navigateToWishlist}
-      navigateToCart={navigateToCart} />
+      navigateToCart={navigateToCart}
+      navigateToContact={navigateToContact} />
       
       <Main open={open} isdesktop={isdesktop}>
         <DrawerHeader />
