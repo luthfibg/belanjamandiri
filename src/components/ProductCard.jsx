@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton, Modal, Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
@@ -24,6 +25,7 @@ const ProductCard = ({ product, customerId }) => {
   const handleClose = () => setOpen(false);
   const [quantity, setQuantity] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const navigate = useNavigate();
 
   const handleIncrease = () => {
     setQuantity(quantity + 1);
@@ -121,11 +123,15 @@ const ProductCard = ({ product, customerId }) => {
   const handleOpenCompletely = () => {
     console.log('Product opened:', product);
   }
+
+  const handleClickCard = () => {
+    navigate(`/product/${product.product_id}`);
+  }
     
   // console.log('Product image URL:', product_image_1);
   return (
     <Card style={{ position: 'relative', width: 200 }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClickCard}>
         <CardMedia
           component="img"
           height="180"
