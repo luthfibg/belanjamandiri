@@ -19,7 +19,6 @@ function DeleteCartConfirmDialogRaw(props) {
     
     const handleOk = async () => {
         try {
-            console.log("Cart ID:", cart_id, "Product ID:", product_id, "Product Cat:", product_cat);
             // Mengirimkan request delete cart item ke backend
             await axios.delete(`http://localhost:2999/data/cart/remove/${cart_id}`, {
                 params: {
@@ -103,16 +102,15 @@ const CartComponent = ({ cart }) => {
     // menghitung total harga berdasarkan jumlah yang dipilih
     const totalPrice = cart.product_price * quantity;
 
-    const handleAddToCart = async () => {
-      
+    const handleSaveEditCart = async () => {
         try {
           // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
-          await axios.put('http://localhost:2999/data/cart', {
+          await axios.put(`http://localhost:2999/data/cart/${cart.cat_cart_id}`, {
             customerId: customerId,
             productId: cart.product_id,
             productCat: cart.product_cat,  // kategori produk: corporate atau c&i
             productQty: quantity,      // kuantitas produk
-            productType: cart.Boxproduct_type  // jenis produk
+            productType: cart.product_type  // jenis produk
           });
       
           console.log('Product added to cart successfully');
@@ -133,7 +131,7 @@ const CartComponent = ({ cart }) => {
         <Button key={1} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Pesan</Button>,
         <Button key={2} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }} onClick={handleOpenModal}>Ubah</Button>,
         <Button key={3} variant="text" size="small" color="primary" style={{ textTransform: "capitalize" }}>Wishlistkan</Button>,
-        <Button key={4} variant="text" size="small" color="error" style={{ textTransform: "capitalize" }} onClick={handleClickDelete}>Hapus</Button>
+        <Button key={4} variant="text" size="small" color="error" style={{ textTransform: "capitalize" }} onClick={handleClickDelete}>Kembalikan</Button>
     ];
 
     const style = {
@@ -199,7 +197,7 @@ const CartComponent = ({ cart }) => {
                                     Rp &nbsp;{totalPrice}
                                     </Typography>
                                     <Stack direction="row" spacing={1}>
-                                    <Button size='small' variant="contained" onClick={handleAddToCart}> <SaveIcon fontSize='small'></SaveIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
+                                    <Button size='small' variant="contained" onClick={handleSaveEditCart}> <SaveIcon fontSize='small'></SaveIcon>&nbsp; <Typography fontSize={12} textTransform={'capitalize'}>Simpan</Typography> </Button>
                                     </Stack>
                                 </Box>
                                 </Box>
@@ -234,7 +232,7 @@ const CartComponent = ({ cart }) => {
                         </Modal>
                                                        
                     ): 
-                        <Typography>Loading ...</Typography>
+                        <Typography>Memuat ...</Typography>
                     }
                     <DeleteCartConfirmDialogRaw
                         key={cart.cart_id}

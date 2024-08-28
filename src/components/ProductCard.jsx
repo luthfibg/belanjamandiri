@@ -92,7 +92,7 @@ const ProductCard = ({ product, customerId }) => {
     }
   };
 
-  // Fungsi untuk menambahkan produk ke keranjang
+  // Handler untuk menambahkan produk ke keranjang
   const handleAddToCart = async () => {
     console.log('Product added to cart:', product);
   
