@@ -10,6 +10,7 @@ import Wishlist from './pages/Wishlist';
 import Cart from './pages/Cart';
 import './styles/scroll_custom.css';
 import DetailProduct from './pages/DetailProduct';
+import ContactUs from './pages/ContactUs';
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
           <Route path="/my_wishlist/:customer_id" element={<Wishlist/>}/>
           <Route path="/my_cart/:customer_id" element={<Cart/>}/>
           <Route path="/product/:product_id" element={<DetailProduct/>}/>
+          <Route path="/contact-us" element={<ContactUs/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
