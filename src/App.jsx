@@ -25,7 +25,7 @@ function App() {
           <Route path="/shop/:customer_id" element={<Shop/>}/>
           <Route path="/my_wishlist/:customer_id" element={<Wishlist/>}/>
           <Route path="/my_cart/:customer_id" element={<Cart/>}/>
-          <Route path="/product/:product_id" element={<DetailProduct/>}/>
+          <Route path="/product/:productId" element={<DetailProduct/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
         </Routes>
       </BrowserRouter>

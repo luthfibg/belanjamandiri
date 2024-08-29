@@ -8,18 +8,20 @@ const DetailProduct = () => {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
+    console.log('productId from useParams:', productId); // Tambahkan logging di sini
     const fetchProductDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:2999/data/products/${productId}`);
+        console.log('Product data:', response.data); // Tambahkan logging di sini
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);
       }
     };
-
+  
     fetchProductDetails();
   }, [productId]);
-
+  
   if (!product) {
     return <div>Loading...</div>;
   }
