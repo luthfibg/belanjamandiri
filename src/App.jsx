@@ -11,6 +11,7 @@ import Cart from './pages/Cart';
 import './styles/scroll_custom.css';
 import DetailProduct from './pages/DetailProduct';
 import ContactUs from './pages/ContactUs';
+import Order from './pages/Order';
 
 function App() {
   
@@ -25,7 +26,8 @@ function App() {
           <Route path="/shop/:customer_id" element={<Shop/>}/>
           <Route path="/my_wishlist/:customer_id" element={<Wishlist/>}/>
           <Route path="/my_cart/:customer_id" element={<Cart/>}/>
-          <Route path="/product/:product_id" element={<DetailProduct/>}/>
+          <Route path="/my_orders/:customer_id" element={<Order/>}/>
+          <Route path="/product/:productId" element={<DetailProduct/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
         </Routes>
       </BrowserRouter>

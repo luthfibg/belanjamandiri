@@ -11,7 +11,6 @@ import { blueGrey } from "@mui/material/colors";
 
 const MainHeader = () => {
     const userinfo = localStorage.getItem('customer_fname');
-    console.log("Nama Pengguna:", userinfo)
     return (
         <Box className="main-header" mb={5} sx={{ display: "flex", flexDirection: "column" }}>
             <Box className="main-header__top" sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>

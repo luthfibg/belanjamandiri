@@ -52,7 +52,6 @@ export default function Cart() {
   // Navigate to shop page
   const navigateToShop = () => {
     navigate(`/shop/${customer_id}`);
-    console.log('Navigate to shop with customer_id:', customer_id);
   };
   
   // Navigate to wishlist page
