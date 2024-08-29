@@ -7,6 +7,7 @@ import {
   Button
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import lightTheme from '../styles/lightTheme';
 
 
 
@@ -35,7 +36,7 @@ export default function CustomAppBar2(props) {
 
   
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#fff', color: 'black' }} elevation={0}>
+    <AppBar position="fixed" sx={{ backgroundColor: lightTheme.palette.background.default, color: 'black' }} elevation={0}>
       <Toolbar>
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           Belanja Mandiri
