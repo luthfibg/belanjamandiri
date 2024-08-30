@@ -1,19 +1,15 @@
-import { Container, CssBaseline, Grid } from "@mui/material";
+import { Container, CssBaseline, Grid, Paper } from "@mui/material";
 import React from "react";
+import CustomAppBar2 from "../components/CustomAppBar2";
 
 const ContactUs = () => {
     return (
+        <>
+        <CustomAppBar2 />
         <Container maxWidth="lg">
-            <CssBaseline />
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <h1>Contact Us</h1>
-                </Grid>
-                <Grid item xs={12}>
-                    <p>Ini halaman Contact Us</p>
-                </Grid>
-            </Grid>
+            <Paper elevation={3}></Paper>
         </Container>
+        </>
     )
 };
 

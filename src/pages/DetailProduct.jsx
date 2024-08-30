@@ -62,7 +62,7 @@ const DetailProduct = () => {
           <img src={product.product_image_1} alt={product.product_type} width={"100%"} style={{ borderRadius: 10 }} />
         </Grid>
         <Grid item xs={4} md={7}>
-          <Box display={"flex"} ml={2}>
+          <Box display={"flex"} ml={{ xs: 0, md: 2 }}>
             {product.product_cat === 'corporate' ? (
               <Typography variant="body1" color={lightTheme.palette.text.disabled}>Korporat</Typography>
             ): (
@@ -78,7 +78,7 @@ const DetailProduct = () => {
             )}
           </Box>
 
-          <Box my={2} display={"flex"} justifyContent={"space-between"} ml={2}>
+          <Box my={2} display={"flex"} justifyContent={"space-between"} ml={{ xs: 0, md: 2 }}>
             <Typography variant="h5" paddingRight={2}>{product.product_type}</Typography>
             {promotion === null ? (
               <Typography variant="body1" color={lightTheme.palette.text.disabled}>Tidak ada promo</Typography>
@@ -87,10 +87,10 @@ const DetailProduct = () => {
             )}
           </Box>
       
-          <Box mb={1} ml={2}>
+          <Box mb={1} ml={{ xs: 0, md: 2 }}>
             <Typography variant="h6" color="primary.main" fontWeight={"bold"}>Rp {parseInt(product.product_price).toLocaleString('id-ID')}</Typography>
           </Box>
-          <Box mb={2} ml={2}>
+          <Box mb={2} ml={{ xs: 0, md: 2 }}>
             <Card variant="outlined" sx={{ p: 2 }} elevation={0}>
               <CardContent>
                 <Typography variant="body1">Category: {product.product_cat}</Typography>
@@ -99,12 +99,12 @@ const DetailProduct = () => {
               </CardContent>
             </Card>
           </Box>
-          <Box ml={2} display={"flex"} justifyContent={"space-between"}>
-            <Button variant="contained" color="primary" sx={{ width: "50%", marginRight:"0.5rem" }}>
+          <Box ml={{ xs: 0, md: 2 }} display={"flex"} justifyContent={"space-between"}>
+            <Button variant="contained" color="primary" sx={{ width: "50%", marginRight:"0.5rem", textTransform: "capitalize" }}>
               <ShoppingCart />
-              &nbsp; Ke Keranjang
+              &nbsp; Keranjang
             </Button>
-            <Button variant="outlined" color="primary" sx={{ width: "50%", marginLeft:"0.5rem"}} >
+            <Button variant="outlined" color="primary" sx={{ width: "50%", marginLeft:"0.5rem", textTransform: "capitalize"}} >
               Pesan
             </Button>
           </Box>
