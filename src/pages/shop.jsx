@@ -105,7 +105,7 @@ export default function Shop() {
       navigateToCart={navigateToCart}
       navigateToContact={navigateToContact} />
       
-      <Main open={open} isdesktop={isdesktop}>
+      <Main open={open} isdesktop={isdesktop} sx={{ backgroundColor: theme.palette.background.default }}>
         <DrawerHeader />
         <MainHeader />
         <ProductsList />
