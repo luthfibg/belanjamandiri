@@ -56,7 +56,7 @@ const DetailProduct = () => {
      settings={settings}
      logout={logout}
      />
-    <Container maxWidth="md" sx={{ mt: 10, backgroundColor: lightTheme.palette.background.default, borderRadius: 3, p: 5 }}>
+    <Container maxWidth="md" sx={{ mt: 10, backgroundColor: lightTheme.palette.background.paper, borderRadius: 3, p: 5 }}>
       <Grid container spacing={2} columns={{ xs: 4, md: 12 }}>
         <Grid item xs={4} md={5}>
           <img src={product.product_image_1} alt={product.product_type} width={"100%"} style={{ borderRadius: 10 }} />
@@ -69,7 +69,7 @@ const DetailProduct = () => {
               <Typography variant="body1" color={lightTheme.palette.text.disabled}>Komersial & Industri</Typography>
             )}
             <Typography variant="body1" color={lightTheme.palette.text.disabled}>&nbsp;-&nbsp;</Typography>
-            {product.product_subcat === 'ifp' ? (
+            {product.product_subcat === 'interactive flat panel' ? (
               <Typography variant="body1" color={lightTheme.palette.text.disabled}>Interaktif Flat Panel</Typography>
             ): product.product_subcat === 'videotron' ? (
               <Typography variant="body1" color={lightTheme.palette.text.disabled}>Videotron</Typography>
@@ -110,7 +110,7 @@ const DetailProduct = () => {
           </Box>
         </Grid>
         <Grid item xs={4} md={12}>
-          <Typography variant="body1">Deskripsi: Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque vitae incidunt similique vero voluptatum soluta natus inventore dolorem quam. Voluptates, sit! Obcaecati dolor unde sapiente praesentium consectetur reprehenderit quasi sed!</Typography>
+          <Typography variant="body1">{product.product_spec}</Typography>
         </Grid>
       </Grid>
     </Container>
