@@ -16,7 +16,7 @@ const DetailProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:2999/data/products/${productId}`);
+        const response = await axios.get(`http://localhost:2999/data/products-sale/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);
@@ -88,7 +88,7 @@ const DetailProduct = () => {
           </Box>
       
           <Box mb={1} ml={2}>
-            <Typography variant="h6" color="primary.main" fontWeight={"bold"}>Rp {parseInt(product.product_price).toLocaleString('id-ID')}</Typography>
+            <Typography variant="h6" color="primary.main" fontWeight={"bold"}>Rp {parseInt(product.product_price).toLocaleString('id')}</Typography>
           </Box>
           <Box mb={2} ml={2}>
             <Card variant="outlined" sx={{ p: 2 }} elevation={0}>
