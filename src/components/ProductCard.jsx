@@ -153,7 +153,7 @@ const ProductCard = ({ product, customerId }) => {
           <Typography variant="body2" color={'text.disabled'} mt={1}>
             {subCategory === 'ifp' ? 'Interaktif Flat Panel' : subCategory === 'ppd' ? 'Panel Presentation Display' : subCategory === 'led aio' ? 'Led All In One' : capitalize(subCategory)}
           </Typography>
-          <Typography fontSize={14} fontWeight={'bold'}>Rp {product_price}</Typography>
+          <Typography fontSize={14} fontWeight={'bold'}>Rp {parseInt(product_price).toLocaleString('id-ID')}</Typography>
           <Rating value={product_stars} readOnly size="small" />
           <ButtonGroup variant="contained" aria-label="Basic button group" size='small'>
             <Button onClick={handleOpen}>
