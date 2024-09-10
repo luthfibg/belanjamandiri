@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, CardContent, CardMedia, Typography, Badge, IconButton, Modal, Stack } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CardActions from '@mui/material/CardActions';
 import { useNavigate } from 'react-router-dom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -21,8 +22,8 @@ const ProductCard = ({ product, customerId }) => {
   const { product_type, product_cat, product_subcat, product_subcat2, product_price, product_tkdn_percentage, product_stars, product_image_1, product_id } = product;
   const subCategory = product_cat === 'corporate' ? product_subcat : product_subcat2;
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
   const [quantity, setQuantity] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const ProductCard = ({ product, customerId }) => {
   
       console.log('Product added to cart successfully');
       handleOpenSnackbar();
-      handleClose();
+      handleCloseModal();
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
@@ -155,8 +156,11 @@ const ProductCard = ({ product, customerId }) => {
           </Typography>
           <Typography fontSize={14} fontWeight={'bold'}>Rp {parseInt(product_price).toLocaleString('id-ID')}</Typography>
           <Rating value={product_stars} readOnly size="small" />
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
           <ButtonGroup variant="contained" aria-label="Basic button group" size='small'>
-            <Button onClick={handleOpen}>
+            <Button onClick={handleOpenModal}>
               <ShoppingCart fontSize='small'></ShoppingCart>&nbsp;
               <Typography fontSize={12} textTransform={'capitalize'}>Keranjang</Typography>
             </Button>
@@ -169,7 +173,7 @@ const ProductCard = ({ product, customerId }) => {
             />
             <Modal
               open={open}
-              onClose={handleClose}
+              onClose={handleCloseModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
@@ -219,9 +223,7 @@ const ProductCard = ({ product, customerId }) => {
             </Modal>
             <Button onClick={handleOrderNow}> <Typography fontSize={12} textTransform={'capitalize'}>Pesan</Typography> </Button>
           </ButtonGroup>
-        </CardContent>
-      </CardActionArea>
-
+      </CardActions>
       <IconButton style={{ position: 'absolute', top: -3, right: 0 }} onClick={handleFavoriteClick} color={favorite ? 'error' : 'primary'}>
         {favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
       </IconButton>
