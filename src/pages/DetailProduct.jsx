@@ -87,13 +87,8 @@ const DetailProduct = () => {
             )}
           </Box>
       
-<<<<<<< HEAD
-          <Box mb={1} ml={2}>
-            <Typography variant="h6" color="primary.main" fontWeight={"bold"}>Rp {parseInt(product.product_price).toLocaleString('id')}</Typography>
-=======
           <Box mb={1} ml={{ xs: 0, md: 2 }}>
             <Typography variant="h6" color="primary.main" fontWeight={"bold"}>Rp {parseInt(product.product_price).toLocaleString('id-ID')}</Typography>
->>>>>>> 8c7f40c6647707081ea875d31bddc6fe8e86184f
           </Box>
           <Box mb={2} ml={{ xs: 0, md: 2 }}>
             <Card variant="outlined" sx={{ p: 2 }} elevation={0}>
