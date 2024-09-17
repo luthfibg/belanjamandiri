@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Box, Button, Card, CardContent, Chip, Container, Grid, Typography } from "@mui/material";
 import CustomAppBar2 from "../components/CustomAppBar2";
 import lightTheme from "../styles/lightTheme";
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
+import axiosInstance from "../axiosConfig";
 
 const DetailProduct = () => {
   const { productId } = useParams();
@@ -16,7 +16,7 @@ const DetailProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:2999/data/products-sale/${productId}`);
+        const response = await axiosInstance.get(`http://localhost:2999/data/products-sale/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);

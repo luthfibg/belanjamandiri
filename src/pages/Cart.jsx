@@ -9,7 +9,7 @@ import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
 import { Grid, Divider, Paper } from '@mui/material';
 import CartComponent from '../components/CartComponent';
-import axios from 'axios';
+import axiosInstance from '../axiosConfig';
 
 const drawerWidth = 240;
 
@@ -26,12 +26,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:2999',
-  headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  }
-});
 
 export default function Cart() {
   const theme = useTheme();
