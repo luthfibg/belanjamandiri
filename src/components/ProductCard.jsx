@@ -15,7 +15,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import Rating from '@mui/material/Rating';
 import Snackbar from '@mui/material/Snackbar';
 import { capitalize } from 'lodash';
-import axios from 'axios';
+import axiosInstance from '../axiosConfig';
 
 const ProductCard = ({ product, customerId }) => {
   const [favorite, setFavorite] = useState(false);
@@ -50,7 +50,7 @@ const ProductCard = ({ product, customerId }) => {
   useEffect(() => {
     const checkIfFavorite = async () => {
       try {
-        const response = await axios.get(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
+        const response = await axiosInstance.get(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
         setFavorite(response.data.isFavorite);
       } catch (error) {
         console.error('Error checking wishlist status:', error);
@@ -77,7 +77,7 @@ const ProductCard = ({ product, customerId }) => {
     try {
       console.log('CustomerID: ', customerId, 'ProductID: ', product_id, 'ProductCat: ', product_cat);
       if (!favorite) {
-        await axios.post('http://localhost:2999/data/wishlist', {
+        await axiosInstance.post('http://localhost:2999/data/wishlist', {
           customerId: customerId,
           productId: product_id,
           productCat: product_cat
@@ -86,7 +86,7 @@ const ProductCard = ({ product, customerId }) => {
         setFavorite(true);
         console.log('Product added to wishlist');
       } else {
-        await axios.delete(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
+        await axiosInstance.delete(`http://localhost:2999/data/wishlist/${customerId}/${product_id}`);
         setFavorite(false);
         console.log('Product removed from wishlist');
       }
@@ -101,7 +101,7 @@ const ProductCard = ({ product, customerId }) => {
   
     try {
       // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
-      await axios.post('http://localhost:2999/data/cart', {
+      await axiosInstance.post('http://localhost:2999/data/cart', {
         customerId: customerId,
         productId: product_id,
         productCat: product_cat,  // kategori produk: corporate atau c&i

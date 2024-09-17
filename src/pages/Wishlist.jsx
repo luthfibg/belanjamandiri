@@ -8,7 +8,7 @@ import {
 import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';
 import WishlistCard from '../components/WishlistCard';
-import axios from 'axios';
+import axiosInstance from '../axiosConfig';
 
 const drawerWidth = 240;
 
@@ -24,13 +24,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     width: isdesktop ? (open ? `calc(100% - ${drawerWidth}px)` : '100%') : '100%',
   }),
 );
-
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:2999',
-  headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  }
-});
 
 /**
  * Renders the Wishlist page with user-specific wishlist items.

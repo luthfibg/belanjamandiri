@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
-import axios from 'axios'; // Pastikan axios di-import
+import axiosInstance from "../axiosConfig";
 
 function DeleteCartConfirmDialogRaw(props) {
     const { cart_id, product_id, product_cat, onClose, open, ...other } = props;
@@ -20,7 +20,7 @@ function DeleteCartConfirmDialogRaw(props) {
     const handleOk = async () => {
         try {
             // Mengirimkan request delete cart item ke backend
-            await axios.delete(`http://localhost:2999/data/cart/remove/${cart_id}`, {
+            await axiosInstance.delete(`http://localhost:2999/data/cart/remove/${cart_id}`, {
                 params: {
                     cartId: cart_id,
                     productId: product_id,
@@ -105,7 +105,7 @@ const CartComponent = ({ cart }) => {
     const handleSaveEditCart = async () => {
         try {
           // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
-          await axios.put(`http://localhost:2999/data/cart/${cart.cat_cart_id}`, {
+          await axiosInstance.put(`http://localhost:2999/data/cart/${cart.cat_cart_id}`, {
             customerId: customerId,
             productId: cart.product_id,
             productCat: cart.product_cat,  // kategori produk: corporate atau c&i

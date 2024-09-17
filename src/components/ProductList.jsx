@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Box, Grid, Typography } from '@mui/material';
 import ProductCard from './ProductCard';
 import { capitalize } from 'lodash';
+import axiosInstance from '../axiosConfig';
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -13,7 +13,7 @@ const ProductsList = () => {
     const fetchProducts = async () => {
       // console.log('token: ', token);
       try {
-        const response = await axios.get('http://localhost:2999/data/products_sale', {
+        const response = await axiosInstance.get('http://localhost:2999/data/products_sale', {
           headers: {
             Authorization: `Bearer ${token}`
           }

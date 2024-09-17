@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect } from 'react';
+import axiosInstance from '../axiosConfig';
 // import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Monitor', 'Produk'];
@@ -54,7 +54,7 @@ function AppBarStore() {
   useEffect(() => {
     const fetchFullname = async () => {
         try {
-            const response = await axios.get(`http://localhost:2999/${username}/userinfo`, {
+            const response = await axiosInstance.get(`http://localhost:2999/${username}/userinfo`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
