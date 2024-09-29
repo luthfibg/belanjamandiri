@@ -2,6 +2,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, CssBaseline, useMediaQuery
@@ -34,6 +35,7 @@ export default function Shop() {
   const [open, setOpen] = React.useState(isdesktop);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { customer_id } = useParams(); // Mengambil customer_id dari URL
+  const [searchTerm, setSearchTerm] = useState('');
 
   const settings = ['Account', 'Logout'];
 
@@ -54,6 +56,11 @@ export default function Shop() {
   // Navigate to contact page
   const navigateToContact = () => {
     navigate(`/contact-us`);
+  };
+
+  // Navigate to about page
+  const navigateToAbout = () => {
+    navigate(`/about-us`);
   };
 
   // Open-closed drawer
@@ -97,18 +104,21 @@ export default function Shop() {
         handleCloseUserMenu={handleCloseUserMenu}
         settings={settings}
         logout={logout}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
       <CustomDrawer open={open}
       handleDrawerClose={handleDrawerClose}
       isdesktop={isdesktop}
       navigateToWishlist={navigateToWishlist}
       navigateToCart={navigateToCart}
-      navigateToContact={navigateToContact} />
+      navigateToContact={navigateToContact}
+      navigateToAbout={navigateToAbout} />
       
       <Main open={open} isdesktop={isdesktop} sx={{ backgroundColor: theme.palette.background.default }}>
         <DrawerHeader />
         <MainHeader />
-        <ProductsList />
+        <ProductsList searchTerm={searchTerm}/>
       </Main>
     </Box>
   );

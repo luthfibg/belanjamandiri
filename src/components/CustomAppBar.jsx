@@ -47,11 +47,15 @@ const SearchModalStyle = {
   };
 
 export default function CustomAppBar(props) {
-  const { open, handleDrawerOpen, handleOpenUserMenu, anchorElUser, handleCloseUserMenu, settings, logout } = props;
+  const { open, handleDrawerOpen, handleOpenUserMenu, anchorElUser, handleCloseUserMenu, settings, logout, searchTerm, setSearchTerm } = props;
   const [openSearch, setOpenSearch] = React.useState(false);
   // open-closed search modal for mobile screen
   const handleOpenSearch = () => setOpenSearch(true);
   const handleCloseSearch = () => setOpenSearch(false);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
   
   return (
     <CustomAppBarStyled position="fixed" open={open}>
@@ -79,6 +83,8 @@ export default function CustomAppBar(props) {
             sx={{ ml: 1, flex: 1 }}
             placeholder="Search"
             inputProps={{ 'aria-label': 'search' }}
+            onChange={handleSearchChange}
+            value={searchTerm}
           />
           <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -111,6 +117,8 @@ export default function CustomAppBar(props) {
                   sx={{ ml: 1, flex: 1 }}
                   placeholder="Kata Kunci Produk..."
                   inputProps={{ 'aria-label': 'kata kunci produk' }}
+                  onChange={handleSearchChange}
+                  value={searchTerm}
                 />
                 <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
                   <SearchIcon />
