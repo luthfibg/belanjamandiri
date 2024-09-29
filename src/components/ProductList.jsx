@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 import { capitalize } from 'lodash';
 import axiosInstance from '../axiosConfig';
 
-const ProductsList = () => {
+const ProductsList = ({searchTerm}) => {
   const [products, setProducts] = useState([]);
   const token = localStorage.getItem('token');
   const customerId = localStorage.getItem('customer_id'); // Assume you store customer ID in local storage
@@ -28,10 +28,14 @@ const ProductsList = () => {
     fetchProducts();
   }, [token]);
 
+  const filteredProducts = products.filter((product) =>
+    product.product_type.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const categorizeProducts = () => {
     const categories = {};
 
-    products.forEach((product) => {
+    filteredProducts.forEach((product) => {
       let categoryKey;
 
       if (product.product_cat === 'corporate') {

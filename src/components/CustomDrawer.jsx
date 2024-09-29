@@ -39,7 +39,7 @@ const filterOptions = [
 ];
 
 function CustomDrawer(props) {
-    const { open, handleDrawerClose, isdesktop, navigateToShop, navigateToWishlist, navigateToCart, navigateToContact } = props;
+    const { open, handleDrawerClose, isdesktop, navigateToShop, navigateToWishlist, navigateToCart, navigateToContact, navigateToAbout } = props;
     const theme = useTheme();
 
     // Menu drawer
@@ -54,7 +54,7 @@ function CustomDrawer(props) {
             <List>
                 {['Belanja', 'Kontak Kami', 'Tentang Kami'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton onClick={index === 0 ? navigateToShop : index === 1 ? navigateToContact : null}>
+                        <ListItemButton onClick={index === 0 ? navigateToShop : index === 1 ? navigateToContact : index === 2 ? navigateToAbout : null}>
                             <ListItemIcon>
                                 {index === 0 ? <ShopIcon /> : index === 1 ? <CallIcon /> : <InfoIcon />}
                             </ListItemIcon>

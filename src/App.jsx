@@ -12,6 +12,7 @@ import './styles/scroll_custom.css';
 import DetailProduct from './pages/DetailProduct';
 import ContactUs from './pages/ContactUs';
 import Order from './pages/Order';
+import AboutUs from './pages/AboutUs';
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
           <Route path="/my_orders/:customer_id" element={<Order/>}/>
           <Route path="/product/:productId" element={<DetailProduct/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
+          <Route path='/about-us' element={<AboutUs/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
