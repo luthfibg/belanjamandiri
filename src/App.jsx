@@ -13,6 +13,7 @@ import DetailProduct from './pages/DetailProduct';
 import ContactUs from './pages/ContactUs';
 import Order from './pages/Order';
 import AboutUs from './pages/AboutUs';
+import Checkout from './pages/Checkout';
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
           <Route path="/product/:productId" element={<DetailProduct/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
           <Route path='/about-us' element={<AboutUs/>}/>
+          <Route path='/checkout' element={<Checkout/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

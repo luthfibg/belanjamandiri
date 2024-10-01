@@ -3,7 +3,7 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Box, CssBaseline, useMediaQuery
+  Box, Button, CssBaseline, useMediaQuery
 } from '@mui/material';
 import CustomDrawer, { DrawerHeader } from '../components/CustomDrawer';
 import CustomAppBar from '../components/CustomAppBar';  // import the CustomAppBar component
@@ -51,6 +51,11 @@ export default function Cart() {
   // Navigate to wishlist page
   const navigateToWishlist = () => {
     navigate(`/my_wishlist/${customer_id}`);
+  };
+
+  // Navigate to checkout page
+  const navigateToCheckout = () => {
+    navigate(`/checkout`);
   };
 
   // open-closed drawer
@@ -128,6 +133,7 @@ export default function Cart() {
                   <CartComponent key={cart.cart_id} cart={cart} />
                 ))
               }
+              <Button variant="contained" onClick={navigateToCheckout}>Checkout</Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={3}

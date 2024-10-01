@@ -28,7 +28,7 @@ const CustomerReg = () => {
     
         try {
             // Mengirim data pelanggan ke server untuk pendaftaran
-            const response = await axios.post("http://localhost:2999/register-customer", customer);
+            const response = await axios.post("https://crm-sales-backend-production.up.railway.app/register-customer", customer);
             console.log('Server response:', response.data); // Logging response data
     
             // Memeriksa apakah respons dari server valid
