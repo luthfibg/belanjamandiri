@@ -18,7 +18,7 @@ const CustomerLogin = () => {
             if (!customer.customer_email || !customer.customer_password) {
                 throw new Error("Email dan Password wajib diisi.");
             }
-            const response = await axios.post("http://localhost:2999/login-customer", {
+            const response = await axios.post("https://crm-sales-backend-production.up.railway.app/login-customer", {
                 customer_email: customer.customer_email,
                 customer_password: customer.customer_password
             });
