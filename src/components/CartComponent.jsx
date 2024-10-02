@@ -20,7 +20,7 @@ function DeleteCartConfirmDialogRaw(props) {
     const handleOk = async () => {
         try {
             // Mengirimkan request delete cart item ke backend
-            await axiosInstance.delete(`http://localhost:2999/data/cart/remove/${cart_id}`, {
+            await axiosInstance.delete(`/data/cart/remove/${cart_id}`, {
                 params: {
                     cartId: cart_id,
                     productId: product_id,
@@ -105,7 +105,7 @@ const CartComponent = ({ cart }) => {
     const handleSaveEditCart = async () => {
         try {
           // Langsung kirim data ke backend, backend akan menangani pembuatan cart_id dan penyimpanan produk
-          await axiosInstance.put(`http://localhost:2999/data/cart/${cart.cat_cart_id}`, {
+          await axiosInstance.put(`/data/cart/${cart.cat_cart_id}`, {
             customerId: customerId,
             productId: cart.product_id,
             productCat: cart.product_cat,  // kategori produk: corporate atau c&i

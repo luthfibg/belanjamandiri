@@ -13,7 +13,7 @@ const ProductsList = ({searchTerm}) => {
     const fetchProducts = async () => {
       // console.log('token: ', token);
       try {
-        const response = await axiosInstance.get('http://localhost:2999/data/products_sale', {
+        const response = await axiosInstance.get('/data/products_sale', {
           headers: {
             Authorization: `Bearer ${token}`
           }
