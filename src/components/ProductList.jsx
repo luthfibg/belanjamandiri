@@ -19,7 +19,7 @@ const ProductsList = ({searchTerm}) => {
           }
         });
         setProducts(response.data);
-        // console.log('Products fetched:', response.data);
+        console.log('Products fetched:', response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
