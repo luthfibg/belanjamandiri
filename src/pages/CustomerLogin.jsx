@@ -21,6 +21,8 @@ const CustomerLogin = () => {
             const response = await axios.post("https://crm-sales-backend-production.up.railway.app/login-customer", {
                 customer_email: customer.customer_email,
                 customer_password: customer.customer_password
+            }, {
+                withCredentials: true,
             });
             console.log('Response from backend:', response.data);
 
